@@ -1,0 +1,1337 @@
+{
+    "stats": {
+        "total_detections": 113,
+        "confidence_counts": {
+            "Détections Haute Confiance": 28,
+            "Détections Nominale Confiance": 85,
+            "Détections Basse Confiance": 0,
+            "Détections Confiance Inconnue": 0
+        },
+        "satellite_counts": {
+            "Aqua": 61,
+            "Terra": 52
+        },
+        "recent_date_range": "2025-12-19 - 2025-12-13"
+    },
+    "detailList": [
+        {
+            "date": "2025-12-19",
+            "time": "0020",
+            "location": "12.92, 19.35",
+            "confidence": "41"
+        },
+        {
+            "date": "2025-12-19",
+            "time": "2316",
+            "location": "10.93, 22.00",
+            "confidence": "93"
+        },
+        {
+            "date": "2025-12-19",
+            "time": "0845",
+            "location": "12.70, 18.94",
+            "confidence": "72"
+        },
+        {
+            "date": "2025-12-19",
+            "time": "1627",
+            "location": "10.30, 21.18",
+            "confidence": "33"
+        },
+        {
+            "date": "2025-12-19",
+            "time": "1435",
+            "location": "9.46, 16.62",
+            "confidence": "55"
+        },
+        {
+            "date": "2025-12-19",
+            "time": "0531",
+            "location": "11.43, 22.26",
+            "confidence": "95"
+        },
+        {
+            "date": "2025-12-19",
+            "time": "1816",
+            "location": "13.12, 19.35",
+            "confidence": "49"
+        },
+        {
+            "date": "2025-12-19",
+            "time": "0836",
+            "location": "9.16, 16.65",
+            "confidence": "32"
+        },
+        {
+            "date": "2025-12-19",
+            "time": "0000",
+            "location": "11.23, 22.31",
+            "confidence": "35"
+        },
+        {
+            "date": "2025-12-19",
+            "time": "0551",
+            "location": "9.26, 16.72",
+            "confidence": "47"
+        },
+        {
+            "date": "2025-12-19",
+            "time": "0127",
+            "location": "11.33, 22.62",
+            "confidence": "58"
+        },
+        {
+            "date": "2025-12-19",
+            "time": "0300",
+            "location": "13.05, 19.09",
+            "confidence": "35"
+        },
+        {
+            "date": "2025-12-19",
+            "time": "1601",
+            "location": "10.98, 22.46",
+            "confidence": "47"
+        },
+        {
+            "date": "2025-12-19",
+            "time": "1535",
+            "location": "10.70, 20.99",
+            "confidence": "47"
+        },
+        {
+            "date": "2025-12-19",
+            "time": "0601",
+            "location": "11.36, 22.03",
+            "confidence": "74"
+        },
+        {
+            "date": "2025-12-19",
+            "time": "1301",
+            "location": "10.61, 20.83",
+            "confidence": "31"
+        },
+        {
+            "date": "2025-12-19",
+            "time": "0502",
+            "location": "11.07, 15.21",
+            "confidence": "44"
+        },
+        {
+            "date": "2025-12-19",
+            "time": "1428",
+            "location": "11.16, 15.38",
+            "confidence": "76"
+        },
+        {
+            "date": "2025-12-19",
+            "time": "0051",
+            "location": "11.06, 16.14",
+            "confidence": "66"
+        },
+        {
+            "date": "2025-12-19",
+            "time": "0626",
+            "location": "11.61, 14.82",
+            "confidence": "55"
+        },
+        {
+            "date": "2025-12-19",
+            "time": "0328",
+            "location": "11.49, 15.26",
+            "confidence": "91"
+        },
+        {
+            "date": "2025-12-18",
+            "time": "0437",
+            "location": "13.16, 18.65",
+            "confidence": "48"
+        },
+        {
+            "date": "2025-12-18",
+            "time": "0925",
+            "location": "10.24, 20.81",
+            "confidence": "42"
+        },
+        {
+            "date": "2025-12-18",
+            "time": "0527",
+            "location": "12.82, 18.54",
+            "confidence": "57"
+        },
+        {
+            "date": "2025-12-18",
+            "time": "1554",
+            "location": "12.83, 18.88",
+            "confidence": "75"
+        },
+        {
+            "date": "2025-12-18",
+            "time": "0039",
+            "location": "10.18, 20.73",
+            "confidence": "85"
+        },
+        {
+            "date": "2025-12-18",
+            "time": "0200",
+            "location": "10.25, 21.06",
+            "confidence": "52"
+        },
+        {
+            "date": "2025-12-18",
+            "time": "0050",
+            "location": "12.94, 18.67",
+            "confidence": "48"
+        },
+        {
+            "date": "2025-12-18",
+            "time": "2232",
+            "location": "10.83, 15.53",
+            "confidence": "60"
+        },
+        {
+            "date": "2025-12-18",
+            "time": "1612",
+            "location": "9.51, 16.50",
+            "confidence": "49"
+        },
+        {
+            "date": "2025-12-18",
+            "time": "0150",
+            "location": "9.87, 20.76",
+            "confidence": "40"
+        },
+        {
+            "date": "2025-12-18",
+            "time": "1634",
+            "location": "10.61, 20.83",
+            "confidence": "59"
+        },
+        {
+            "date": "2025-12-18",
+            "time": "2158",
+            "location": "12.56, 18.81",
+            "confidence": "34"
+        },
+        {
+            "date": "2025-12-18",
+            "time": "1654",
+            "location": "10.53, 20.82",
+            "confidence": "33"
+        },
+        {
+            "date": "2025-12-18",
+            "time": "1210",
+            "location": "10.49, 21.03",
+            "confidence": "76"
+        },
+        {
+            "date": "2025-12-18",
+            "time": "1205",
+            "location": "9.60, 16.40",
+            "confidence": "65"
+        },
+        {
+            "date": "2025-12-18",
+            "time": "0309",
+            "location": "10.55, 20.52",
+            "confidence": "81"
+        },
+        {
+            "date": "2025-12-18",
+            "time": "1948",
+            "location": "11.73, 22.40",
+            "confidence": "31"
+        },
+        {
+            "date": "2025-12-18",
+            "time": "0408",
+            "location": "10.35, 20.65",
+            "confidence": "68"
+        },
+        {
+            "date": "2025-12-18",
+            "time": "1643",
+            "location": "9.63, 16.48",
+            "confidence": "62"
+        },
+        {
+            "date": "2025-12-17",
+            "time": "1612",
+            "location": "12.37, 18.40",
+            "confidence": "57"
+        },
+        {
+            "date": "2025-12-17",
+            "time": "0240",
+            "location": "9.12, 16.00",
+            "confidence": "42"
+        },
+        {
+            "date": "2025-12-17",
+            "time": "0252",
+            "location": "12.65, 19.58",
+            "confidence": "55"
+        },
+        {
+            "date": "2025-12-17",
+            "time": "0309",
+            "location": "8.89, 16.42",
+            "confidence": "82"
+        },
+        {
+            "date": "2025-12-17",
+            "time": "2203",
+            "location": "11.52, 22.72",
+            "confidence": "86"
+        },
+        {
+            "date": "2025-12-17",
+            "time": "2122",
+            "location": "11.20, 22.45",
+            "confidence": "82"
+        },
+        {
+            "date": "2025-12-17",
+            "time": "0739",
+            "location": "11.21, 15.38",
+            "confidence": "88"
+        },
+        {
+            "date": "2025-12-17",
+            "time": "2340",
+            "location": "11.97, 22.96",
+            "confidence": "59"
+        },
+        {
+            "date": "2025-12-17",
+            "time": "2334",
+            "location": "9.93, 21.01",
+            "confidence": "72"
+        },
+        {
+            "date": "2025-12-16",
+            "time": "0739",
+            "location": "8.68, 16.46",
+            "confidence": "55"
+        }
+    ],
+    "fireRecords": [
+        [
+            "2025-12-19",
+            "0020",
+            "12.9214",
+            "19.3496",
+            "345.5 K <span class='fire-emoji' data-brightness='345.50'>🔥</span>",
+            "41",
+            "Terra"
+        ],
+        [
+            "2025-12-19",
+            "2316",
+            "10.9260",
+            "22.0015",
+            "322.7 K <span class='fire-emoji' data-brightness='322.75'>🔥</span>",
+            "93",
+            "Terra"
+        ],
+        [
+            "2025-12-19",
+            "0845",
+            "12.7048",
+            "18.9381",
+            "386.7 K <span class='fire-emoji' data-brightness='386.66'>🔥</span>",
+            "72",
+            "Aqua"
+        ],
+        [
+            "2025-12-19",
+            "1627",
+            "10.3027",
+            "21.1805",
+            "391.5 K <span class='fire-emoji' data-brightness='391.48'>🔥</span>",
+            "33",
+            "Terra"
+        ],
+        [
+            "2025-12-19",
+            "1435",
+            "9.4633",
+            "16.6209",
+            "323.3 K <span class='fire-emoji' data-brightness='323.27'>🔥</span>",
+            "55",
+            "Aqua"
+        ],
+        [
+            "2025-12-19",
+            "0531",
+            "11.4323",
+            "22.2618",
+            "380.1 K <span class='fire-emoji' data-brightness='380.13'>🔥</span>",
+            "95",
+            "Aqua"
+        ],
+        [
+            "2025-12-19",
+            "1816",
+            "13.1182",
+            "19.3521",
+            "342.4 K <span class='fire-emoji' data-brightness='342.39'>🔥</span>",
+            "49",
+            "Terra"
+        ],
+        [
+            "2025-12-19",
+            "0836",
+            "9.1589",
+            "16.6463",
+            "314.3 K <span class='fire-emoji' data-brightness='314.32'>🔥</span>",
+            "32",
+            "Aqua"
+        ],
+        [
+            "2025-12-19",
+            "0000",
+            "11.2276",
+            "22.3097",
+            "344.2 K <span class='fire-emoji' data-brightness='344.21'>🔥</span>",
+            "35",
+            "Aqua"
+        ],
+        [
+            "2025-12-19",
+            "0551",
+            "9.2600",
+            "16.7242",
+            "397.9 K <span class='fire-emoji' data-brightness='397.94'>🔥</span>",
+            "47",
+            "Terra"
+        ],
+        [
+            "2025-12-19",
+            "0127",
+            "11.3313",
+            "22.6215",
+            "378.6 K <span class='fire-emoji' data-brightness='378.56'>🔥</span>",
+            "58",
+            "Aqua"
+        ],
+        [
+            "2025-12-19",
+            "0300",
+            "13.0479",
+            "19.0864",
+            "410.7 K <span class='fire-emoji' data-brightness='410.68'>🔥</span>",
+            "35",
+            "Aqua"
+        ],
+        [
+            "2025-12-19",
+            "1601",
+            "10.9825",
+            "22.4591",
+            "404.9 K <span class='fire-emoji' data-brightness='404.94'>🔥</span>",
+            "47",
+            "Terra"
+        ],
+        [
+            "2025-12-19",
+            "1535",
+            "10.6975",
+            "20.9890",
+            "324.0 K <span class='fire-emoji' data-brightness='323.98'>🔥</span>",
+            "47",
+            "Aqua"
+        ],
+        [
+            "2025-12-19",
+            "0601",
+            "11.3610",
+            "22.0337",
+            "394.8 K <span class='fire-emoji' data-brightness='394.84'>🔥</span>",
+            "74",
+            "Terra"
+        ],
+        [
+            "2025-12-19",
+            "1301",
+            "10.6132",
+            "20.8281",
+            "381.5 K <span class='fire-emoji' data-brightness='381.50'>🔥</span>",
+            "31",
+            "Aqua"
+        ],
+        [
+            "2025-12-19",
+            "0502",
+            "11.0712",
+            "15.2080",
+            "355.3 K <span class='fire-emoji' data-brightness='355.30'>🔥</span>",
+            "44",
+            "Aqua"
+        ],
+        [
+            "2025-12-19",
+            "1428",
+            "11.1585",
+            "15.3803",
+            "416.2 K <span class='fire-emoji' data-brightness='416.15'>🔥</span>",
+            "76",
+            "Terra"
+        ],
+        [
+            "2025-12-19",
+            "0051",
+            "11.0623",
+            "16.1351",
+            "323.7 K <span class='fire-emoji' data-brightness='323.67'>🔥</span>",
+            "66",
+            "Aqua"
+        ],
+        [
+            "2025-12-19",
+            "0626",
+            "11.6130",
+            "14.8167",
+            "390.4 K <span class='fire-emoji' data-brightness='390.40'>🔥</span>",
+            "55",
+            "Aqua"
+        ],
+        [
+            "2025-12-19",
+            "0328",
+            "11.4859",
+            "15.2554",
+            "413.2 K <span class='fire-emoji' data-brightness='413.22'>🔥</span>",
+            "91",
+            "Terra"
+        ],
+        [
+            "2025-12-18",
+            "0437",
+            "13.1550",
+            "18.6524",
+            "337.8 K <span class='fire-emoji' data-brightness='337.83'>🔥</span>",
+            "48",
+            "Aqua"
+        ],
+        [
+            "2025-12-18",
+            "0925",
+            "10.2382",
+            "20.8126",
+            "351.3 K <span class='fire-emoji' data-brightness='351.31'>🔥</span>",
+            "42",
+            "Aqua"
+        ],
+        [
+            "2025-12-18",
+            "0527",
+            "12.8248",
+            "18.5373",
+            "411.7 K <span class='fire-emoji' data-brightness='411.71'>🔥</span>",
+            "57",
+            "Terra"
+        ],
+        [
+            "2025-12-18",
+            "1554",
+            "12.8270",
+            "18.8827",
+            "314.8 K <span class='fire-emoji' data-brightness='314.77'>🔥</span>",
+            "75",
+            "Aqua"
+        ],
+        [
+            "2025-12-18",
+            "0039",
+            "10.1835",
+            "20.7281",
+            "410.5 K <span class='fire-emoji' data-brightness='410.46'>🔥</span>",
+            "85",
+            "Aqua"
+        ],
+        [
+            "2025-12-18",
+            "0200",
+            "10.2517",
+            "21.0636",
+            "405.4 K <span class='fire-emoji' data-brightness='405.38'>🔥</span>",
+            "52",
+            "Terra"
+        ],
+        [
+            "2025-12-18",
+            "0050",
+            "12.9375",
+            "18.6740",
+            "352.3 K <span class='fire-emoji' data-brightness='352.26'>🔥</span>",
+            "48",
+            "Terra"
+        ],
+        [
+            "2025-12-18",
+            "2232",
+            "10.8306",
+            "15.5281",
+            "391.5 K <span class='fire-emoji' data-brightness='391.52'>🔥</span>",
+            "60",
+            "Aqua"
+        ],
+        [
+            "2025-12-18",
+            "1612",
+            "9.5080",
+            "16.4956",
+            "314.5 K <span class='fire-emoji' data-brightness='314.50'>🔥</span>",
+            "49",
+            "Aqua"
+        ],
+        [
+            "2025-12-18",
+            "0150",
+            "9.8680",
+            "20.7588",
+            "320.3 K <span class='fire-emoji' data-brightness='320.34'>🔥</span>",
+            "40",
+            "Aqua"
+        ],
+        [
+            "2025-12-18",
+            "1634",
+            "10.6148",
+            "20.8277",
+            "349.6 K <span class='fire-emoji' data-brightness='349.62'>🔥</span>",
+            "59",
+            "Aqua"
+        ],
+        [
+            "2025-12-18",
+            "2158",
+            "12.5586",
+            "18.8137",
+            "358.0 K <span class='fire-emoji' data-brightness='358.00'>🔥</span>",
+            "34",
+            "Aqua"
+        ],
+        [
+            "2025-12-18",
+            "1654",
+            "10.5310",
+            "20.8154",
+            "319.4 K <span class='fire-emoji' data-brightness='319.39'>🔥</span>",
+            "33",
+            "Terra"
+        ],
+        [
+            "2025-12-18",
+            "1210",
+            "10.4853",
+            "21.0331",
+            "369.7 K <span class='fire-emoji' data-brightness='369.69'>🔥</span>",
+            "76",
+            "Aqua"
+        ],
+        [
+            "2025-12-18",
+            "1205",
+            "9.6003",
+            "16.4042",
+            "406.1 K <span class='fire-emoji' data-brightness='406.09'>🔥</span>",
+            "65",
+            "Terra"
+        ],
+        [
+            "2025-12-18",
+            "0309",
+            "10.5542",
+            "20.5222",
+            "313.4 K <span class='fire-emoji' data-brightness='313.36'>🔥</span>",
+            "81",
+            "Aqua"
+        ],
+        [
+            "2025-12-18",
+            "1948",
+            "11.7302",
+            "22.3960",
+            "399.7 K <span class='fire-emoji' data-brightness='399.70'>🔥</span>",
+            "31",
+            "Aqua"
+        ],
+        [
+            "2025-12-18",
+            "0408",
+            "10.3524",
+            "20.6461",
+            "314.1 K <span class='fire-emoji' data-brightness='314.11'>🔥</span>",
+            "68",
+            "Aqua"
+        ],
+        [
+            "2025-12-18",
+            "1643",
+            "9.6333",
+            "16.4774",
+            "365.4 K <span class='fire-emoji' data-brightness='365.38'>🔥</span>",
+            "62",
+            "Aqua"
+        ],
+        [
+            "2025-12-17",
+            "1612",
+            "12.3678",
+            "18.3981",
+            "398.2 K <span class='fire-emoji' data-brightness='398.23'>🔥</span>",
+            "57",
+            "Aqua"
+        ],
+        [
+            "2025-12-17",
+            "0240",
+            "9.1193",
+            "16.0006",
+            "329.5 K <span class='fire-emoji' data-brightness='329.47'>🔥</span>",
+            "42",
+            "Aqua"
+        ],
+        [
+            "2025-12-17",
+            "0252",
+            "12.6484",
+            "19.5770",
+            "386.5 K <span class='fire-emoji' data-brightness='386.50'>🔥</span>",
+            "55",
+            "Aqua"
+        ],
+        [
+            "2025-12-17",
+            "0309",
+            "8.8939",
+            "16.4156",
+            "340.6 K <span class='fire-emoji' data-brightness='340.64'>🔥</span>",
+            "82",
+            "Aqua"
+        ],
+        [
+            "2025-12-17",
+            "2203",
+            "11.5203",
+            "22.7171",
+            "407.6 K <span class='fire-emoji' data-brightness='407.59'>🔥</span>",
+            "86",
+            "Aqua"
+        ],
+        [
+            "2025-12-17",
+            "2122",
+            "11.1962",
+            "22.4514",
+            "346.4 K <span class='fire-emoji' data-brightness='346.40'>🔥</span>",
+            "82",
+            "Terra"
+        ],
+        [
+            "2025-12-17",
+            "0739",
+            "11.2054",
+            "15.3839",
+            "393.6 K <span class='fire-emoji' data-brightness='393.63'>🔥</span>",
+            "88",
+            "Aqua"
+        ],
+        [
+            "2025-12-17",
+            "2340",
+            "11.9738",
+            "22.9557",
+            "310.6 K <span class='fire-emoji' data-brightness='310.61'>🔥</span>",
+            "59",
+            "Aqua"
+        ],
+        [
+            "2025-12-17",
+            "2334",
+            "9.9349",
+            "21.0130",
+            "400.5 K <span class='fire-emoji' data-brightness='400.49'>🔥</span>",
+            "72",
+            "Terra"
+        ],
+        [
+            "2025-12-16",
+            "0739",
+            "8.6807",
+            "16.4631",
+            "350.1 K <span class='fire-emoji' data-brightness='350.07'>🔥</span>",
+            "55",
+            "Terra"
+        ],
+        [
+            "2025-12-16",
+            "2322",
+            "10.0746",
+            "20.5573",
+            "333.7 K <span class='fire-emoji' data-brightness='333.74'>🔥</span>",
+            "31",
+            "Terra"
+        ],
+        [
+            "2025-12-16",
+            "0836",
+            "11.4585",
+            "22.0547",
+            "398.2 K <span class='fire-emoji' data-brightness='398.24'>🔥</span>",
+            "83",
+            "Terra"
+        ],
+        [
+            "2025-12-16",
+            "0052",
+            "9.2992",
+            "16.3573",
+            "316.7 K <span class='fire-emoji' data-brightness='316.72'>🔥</span>",
+            "37",
+            "Terra"
+        ],
+        [
+            "2025-12-16",
+            "0726",
+            "11.6490",
+            "22.4333",
+            "325.5 K <span class='fire-emoji' data-brightness='325.50'>🔥</span>",
+            "79",
+            "Terra"
+        ],
+        [
+            "2025-12-16",
+            "1211",
+            "10.4668",
+            "21.6203",
+            "397.8 K <span class='fire-emoji' data-brightness='397.81'>🔥</span>",
+            "35",
+            "Terra"
+        ],
+        [
+            "2025-12-16",
+            "2335",
+            "10.6651",
+            "21.1137",
+            "341.5 K <span class='fire-emoji' data-brightness='341.52'>🔥</span>",
+            "49",
+            "Terra"
+        ],
+        [
+            "2025-12-16",
+            "2049",
+            "10.0399",
+            "20.6643",
+            "361.2 K <span class='fire-emoji' data-brightness='361.22'>🔥</span>",
+            "80",
+            "Terra"
+        ],
+        [
+            "2025-12-16",
+            "0050",
+            "11.6943",
+            "22.5127",
+            "318.2 K <span class='fire-emoji' data-brightness='318.20'>🔥</span>",
+            "69",
+            "Aqua"
+        ],
+        [
+            "2025-12-16",
+            "0943",
+            "11.9569",
+            "22.2198",
+            "418.6 K <span class='fire-emoji' data-brightness='418.56'>🔥</span>",
+            "83",
+            "Aqua"
+        ],
+        [
+            "2025-12-16",
+            "1801",
+            "11.0763",
+            "21.9564",
+            "345.8 K <span class='fire-emoji' data-brightness='345.77'>🔥</span>",
+            "50",
+            "Terra"
+        ],
+        [
+            "2025-12-16",
+            "0032",
+            "10.4609",
+            "20.8438",
+            "342.3 K <span class='fire-emoji' data-brightness='342.30'>🔥</span>",
+            "80",
+            "Terra"
+        ],
+        [
+            "2025-12-16",
+            "0411",
+            "10.4862",
+            "20.5685",
+            "399.1 K <span class='fire-emoji' data-brightness='399.11'>🔥</span>",
+            "66",
+            "Terra"
+        ],
+        [
+            "2025-12-16",
+            "1911",
+            "11.6628",
+            "22.6468",
+            "390.2 K <span class='fire-emoji' data-brightness='390.19'>🔥</span>",
+            "32",
+            "Terra"
+        ],
+        [
+            "2025-12-15",
+            "2236",
+            "12.3930",
+            "19.2415",
+            "318.3 K <span class='fire-emoji' data-brightness='318.30'>🔥</span>",
+            "48",
+            "Aqua"
+        ],
+        [
+            "2025-12-15",
+            "0146",
+            "9.0973",
+            "16.0676",
+            "332.7 K <span class='fire-emoji' data-brightness='332.70'>🔥</span>",
+            "73",
+            "Aqua"
+        ],
+        [
+            "2025-12-15",
+            "2043",
+            "11.9397",
+            "22.1840",
+            "390.3 K <span class='fire-emoji' data-brightness='390.26'>🔥</span>",
+            "41",
+            "Terra"
+        ],
+        [
+            "2025-12-15",
+            "1842",
+            "10.0256",
+            "20.3890",
+            "399.0 K <span class='fire-emoji' data-brightness='399.03'>🔥</span>",
+            "98",
+            "Aqua"
+        ],
+        [
+            "2025-12-15",
+            "0942",
+            "10.0343",
+            "21.1628",
+            "366.2 K <span class='fire-emoji' data-brightness='366.25'>🔥</span>",
+            "48",
+            "Aqua"
+        ],
+        [
+            "2025-12-15",
+            "2036",
+            "12.3255",
+            "19.2943",
+            "328.3 K <span class='fire-emoji' data-brightness='328.28'>🔥</span>",
+            "61",
+            "Aqua"
+        ],
+        [
+            "2025-12-15",
+            "0631",
+            "10.0137",
+            "20.8693",
+            "394.7 K <span class='fire-emoji' data-brightness='394.70'>🔥</span>",
+            "83",
+            "Aqua"
+        ],
+        [
+            "2025-12-15",
+            "1838",
+            "11.1171",
+            "14.4777",
+            "375.5 K <span class='fire-emoji' data-brightness='375.52'>🔥</span>",
+            "39",
+            "Aqua"
+        ],
+        [
+            "2025-12-15",
+            "1625",
+            "11.0617",
+            "20.5111",
+            "407.9 K <span class='fire-emoji' data-brightness='407.90'>🔥</span>",
+            "78",
+            "Terra"
+        ],
+        [
+            "2025-12-15",
+            "0033",
+            "12.8808",
+            "18.9945",
+            "417.6 K <span class='fire-emoji' data-brightness='417.57'>🔥</span>",
+            "37",
+            "Aqua"
+        ],
+        [
+            "2025-12-15",
+            "0357",
+            "10.6898",
+            "21.0221",
+            "314.0 K <span class='fire-emoji' data-brightness='313.95'>🔥</span>",
+            "68",
+            "Terra"
+        ],
+        [
+            "2025-12-15",
+            "1748",
+            "10.5204",
+            "21.3289",
+            "367.4 K <span class='fire-emoji' data-brightness='367.45'>🔥</span>",
+            "54",
+            "Terra"
+        ],
+        [
+            "2025-12-14",
+            "0456",
+            "9.4945",
+            "16.3660",
+            "411.3 K <span class='fire-emoji' data-brightness='411.30'>🔥</span>",
+            "67",
+            "Terra"
+        ],
+        [
+            "2025-12-14",
+            "2358",
+            "11.3367",
+            "21.8711",
+            "323.2 K <span class='fire-emoji' data-brightness='323.16'>🔥</span>",
+            "91",
+            "Aqua"
+        ],
+        [
+            "2025-12-14",
+            "1352",
+            "10.2492",
+            "14.9994",
+            "385.0 K <span class='fire-emoji' data-brightness='384.97'>🔥</span>",
+            "70",
+            "Aqua"
+        ],
+        [
+            "2025-12-14",
+            "0448",
+            "11.5726",
+            "21.8121",
+            "349.4 K <span class='fire-emoji' data-brightness='349.43'>🔥</span>",
+            "65",
+            "Aqua"
+        ],
+        [
+            "2025-12-14",
+            "2358",
+            "9.0540",
+            "17.1165",
+            "319.0 K <span class='fire-emoji' data-brightness='318.99'>🔥</span>",
+            "92",
+            "Terra"
+        ],
+        [
+            "2025-12-14",
+            "1805",
+            "10.9745",
+            "15.1624",
+            "361.9 K <span class='fire-emoji' data-brightness='361.87'>🔥</span>",
+            "85",
+            "Aqua"
+        ],
+        [
+            "2025-12-14",
+            "0431",
+            "11.5943",
+            "22.3653",
+            "317.0 K <span class='fire-emoji' data-brightness='316.99'>🔥</span>",
+            "46",
+            "Aqua"
+        ],
+        [
+            "2025-12-14",
+            "2131",
+            "11.4298",
+            "22.2195",
+            "331.9 K <span class='fire-emoji' data-brightness='331.86'>🔥</span>",
+            "66",
+            "Aqua"
+        ],
+        [
+            "2025-12-14",
+            "2314",
+            "11.4298",
+            "22.3125",
+            "394.9 K <span class='fire-emoji' data-brightness='394.95'>🔥</span>",
+            "64",
+            "Terra"
+        ],
+        [
+            "2025-12-14",
+            "1923",
+            "10.1903",
+            "20.9273",
+            "386.7 K <span class='fire-emoji' data-brightness='386.67'>🔥</span>",
+            "67",
+            "Terra"
+        ],
+        [
+            "2025-12-14",
+            "1849",
+            "10.4579",
+            "20.3781",
+            "387.2 K <span class='fire-emoji' data-brightness='387.22'>🔥</span>",
+            "97",
+            "Terra"
+        ],
+        [
+            "2025-12-14",
+            "0259",
+            "9.9331",
+            "20.5397",
+            "349.5 K <span class='fire-emoji' data-brightness='349.54'>🔥</span>",
+            "74",
+            "Terra"
+        ],
+        [
+            "2025-12-14",
+            "0222",
+            "10.7092",
+            "20.7896",
+            "397.5 K <span class='fire-emoji' data-brightness='397.54'>🔥</span>",
+            "88",
+            "Terra"
+        ],
+        [
+            "2025-12-14",
+            "1604",
+            "12.7225",
+            "18.9277",
+            "411.1 K <span class='fire-emoji' data-brightness='411.10'>🔥</span>",
+            "46",
+            "Aqua"
+        ],
+        [
+            "2025-12-14",
+            "0806",
+            "10.6572",
+            "20.7628",
+            "373.6 K <span class='fire-emoji' data-brightness='373.61'>🔥</span>",
+            "47",
+            "Terra"
+        ],
+        [
+            "2025-12-14",
+            "2013",
+            "12.8712",
+            "19.4400",
+            "419.5 K <span class='fire-emoji' data-brightness='419.54'>🔥</span>",
+            "58",
+            "Aqua"
+        ],
+        [
+            "2025-12-14",
+            "1020",
+            "12.8606",
+            "19.4980",
+            "368.1 K <span class='fire-emoji' data-brightness='368.12'>🔥</span>",
+            "97",
+            "Terra"
+        ],
+        [
+            "2025-12-14",
+            "1924",
+            "9.2498",
+            "16.7389",
+            "328.6 K <span class='fire-emoji' data-brightness='328.58'>🔥</span>",
+            "86",
+            "Terra"
+        ],
+        [
+            "2025-12-14",
+            "1149",
+            "10.4947",
+            "21.0822",
+            "387.3 K <span class='fire-emoji' data-brightness='387.27'>🔥</span>",
+            "67",
+            "Terra"
+        ],
+        [
+            "2025-12-13",
+            "0411",
+            "9.9609",
+            "21.1172",
+            "378.5 K <span class='fire-emoji' data-brightness='378.52'>🔥</span>",
+            "38",
+            "Aqua"
+        ],
+        [
+            "2025-12-13",
+            "1657",
+            "11.3592",
+            "22.0827",
+            "387.8 K <span class='fire-emoji' data-brightness='387.75'>🔥</span>",
+            "37",
+            "Aqua"
+        ],
+        [
+            "2025-12-13",
+            "0556",
+            "11.2799",
+            "15.1778",
+            "329.9 K <span class='fire-emoji' data-brightness='329.94'>🔥</span>",
+            "57",
+            "Terra"
+        ],
+        [
+            "2025-12-13",
+            "0728",
+            "10.2027",
+            "21.0932",
+            "347.2 K <span class='fire-emoji' data-brightness='347.18'>🔥</span>",
+            "58",
+            "Terra"
+        ],
+        [
+            "2025-12-13",
+            "1914",
+            "10.8402",
+            "14.9583",
+            "401.4 K <span class='fire-emoji' data-brightness='401.37'>🔥</span>",
+            "87",
+            "Aqua"
+        ],
+        [
+            "2025-12-13",
+            "0036",
+            "10.7715",
+            "15.1194",
+            "317.3 K <span class='fire-emoji' data-brightness='317.31'>🔥</span>",
+            "87",
+            "Terra"
+        ],
+        [
+            "2025-12-13",
+            "0741",
+            "10.7828",
+            "15.5393",
+            "412.2 K <span class='fire-emoji' data-brightness='412.25'>🔥</span>",
+            "41",
+            "Terra"
+        ],
+        [
+            "2025-12-13",
+            "0650",
+            "11.0821",
+            "14.8427",
+            "348.4 K <span class='fire-emoji' data-brightness='348.38'>🔥</span>",
+            "41",
+            "Terra"
+        ],
+        [
+            "2025-12-13",
+            "1217",
+            "9.6467",
+            "16.4981",
+            "319.8 K <span class='fire-emoji' data-brightness='319.76'>🔥</span>",
+            "44",
+            "Terra"
+        ],
+        [
+            "2025-12-13",
+            "0834",
+            "13.3441",
+            "18.7942",
+            "371.2 K <span class='fire-emoji' data-brightness='371.16'>🔥</span>",
+            "53",
+            "Aqua"
+        ],
+        [
+            "2025-12-13",
+            "1421",
+            "9.0699",
+            "16.8368",
+            "360.7 K <span class='fire-emoji' data-brightness='360.69'>🔥</span>",
+            "63",
+            "Aqua"
+        ],
+        [
+            "2025-12-13",
+            "0248",
+            "11.3603",
+            "22.4627",
+            "318.1 K <span class='fire-emoji' data-brightness='318.14'>🔥</span>",
+            "52",
+            "Aqua"
+        ],
+        [
+            "2025-12-13",
+            "1128",
+            "10.1930",
+            "20.9614",
+            "365.2 K <span class='fire-emoji' data-brightness='365.17'>🔥</span>",
+            "60",
+            "Aqua"
+        ],
+        [
+            "2025-12-13",
+            "0909",
+            "12.8237",
+            "19.2608",
+            "333.8 K <span class='fire-emoji' data-brightness='333.85'>🔥</span>",
+            "32",
+            "Terra"
+        ],
+        [
+            "2025-12-13",
+            "0158",
+            "8.5487",
+            "16.4128",
+            "379.1 K <span class='fire-emoji' data-brightness='379.07'>🔥</span>",
+            "79",
+            "Aqua"
+        ],
+        [
+            "2025-12-13",
+            "1212",
+            "12.8559",
+            "18.8459",
+            "391.1 K <span class='fire-emoji' data-brightness='391.08'>🔥</span>",
+            "39",
+            "Aqua"
+        ],
+        [
+            "2025-12-13",
+            "1841",
+            "9.4658",
+            "16.1696",
+            "385.9 K <span class='fire-emoji' data-brightness='385.94'>🔥</span>",
+            "82",
+            "Aqua"
+        ],
+        [
+            "2025-12-13",
+            "2210",
+            "11.0726",
+            "22.5031",
+            "361.9 K <span class='fire-emoji' data-brightness='361.94'>🔥</span>",
+            "74",
+            "Terra"
+        ],
+        [
+            "2025-12-13",
+            "2056",
+            "10.3679",
+            "20.6974",
+            "375.0 K <span class='fire-emoji' data-brightness='374.99'>🔥</span>",
+            "96",
+            "Terra"
+        ]
+    ]
+}

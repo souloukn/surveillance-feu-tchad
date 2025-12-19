@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Tableau de Bord - Feux de Brousses (Tchad)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Styles CSS -->
+    <!-- ASSUREZ-VOUS QUE LE CHEMIN VERS style.css EST CORRECT -->
+    <link rel="stylesheet" href="style.css">
+    <!-- Style pour simple-datatables (chargé depuis un CDN) -->
+    <!-- Assurez-vous d'utiliser la version la plus récente si nécessaire -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css">
+
+    <!-- Optionnel: Icône de page (favicon) -->
+    <!-- ASSUREZ-VOUS QUE LE CHEMIN VERS favicon.ico EST CORRECT -->
+    <!-- <link rel="icon" href="favicon.ico" type="image/x-icon"> -->
+</head>
+<body>
+
+    <header>
+        <!-- Conteneur Flexbox pour aligner le logo et le texte du header -->
+        <div class="header-content">
+            <!-- Le logo -->
+            <!-- ASSUREZ-VOUS QUE LE CHEMIN VERS logo.jpg EST CORRECT (ex: src="logo.jpg" si dans le même dossier) -->
+            <img src="logo.jpg" alt="Logo Nexus Geo-Élec" class="site-logo">
+
+            <!-- Le titre et le sous-titre -->
+            <div class="header-title-group">
+                 <h1>Tableau de Bord : Feux de Brousses Actifs (Tchad)</h1>
+                 <!-- Le paragraphe p.header-subtitle est ciblé par le JS pour ajouter la plage de dates -->
+                 <p class="header-subtitle">Données récentes – NASA FIRMS</p> <!-- Texte par défaut, sera mis à jour par JS -->
+            </div>
+        </div>
+         <!-- Indicateur d'auto-actualisation -->
+         <!-- data-interval spécifie l'intervalle en secondes pour le script JS -->
+         <div class="auto-refresh-indicator" data-interval="300"> <!-- Intervalle de 5 minutes par défaut -->
+             Actualisation dans: <span id="refresh-countdown">Chargement...</span> <!-- Sera mis à jour par JS -->
+         </div>
+    </header>
+
+    <!--
+    SECTION PRINCIPALE : CONTIENT TOUS LES ÉLÉMENTS DU TABLEAU DE BORD
+    Utilise CSS Grid (voir style.css) pour la mise en page en 2 colonnes:
+    1. Colonne gauche (#left-sidebar) (largeur fixe, défilante) pour stats, graphiques, tableau.
+    2. Colonne droite (#interactive-map-section) (prend l'espace restant) pour la carte.
+    -->
+    <main>
+        <!--
+        CONTENEUR POUR LA COLONNE LATÉRALE GAUCHE (DÉFILANTE)
+        Cet élément (#left-sidebar) est positionné dans la grille par le CSS Grid.
+        Il utilise Flexbox en interne pour empiler ses enfants (les sections) verticalement.
+        Il gère également le défilement si son contenu dépasse la hauteur disponible.
+        -->
+        <div id="left-sidebar">
+            <!-- Panneau des Statistiques/Métriques -->
+            <!-- Cette section est un ENFANT de #left-sidebar -->
+            <!-- ID #stats-section est utilisé par le script JS (aligné avec le script Python amélioré) -->
+            <section id="stats-section">
+                <h2>Statistiques Clés</h2>
+                <!-- Ce div .section-content est le wrapper pour le contenu collapsible, utilisé par le JS -->
+                <div class="section-content">
+                    <!-- Les éléments de métrique auront leurs nombres remplis par le script JS -->
+                    <!-- Les classes 'metric', 'number', 'label' sont utilisées par le CSS pour le style et par le JS pour le ciblage -->
+                    <!-- Le texte dans <span class="label"> DOIT correspondre EXACTEMENT aux clés utilisées dans dashboard_stats['confidence_counts'] par le script Python -->
+                    <div class="metric">
+                        <span class="number">?</span> <!-- Le nombre réel sera injecté par JS -->
+                        <span class="label">Total Détections</span> <!-- JS recherche ce texte -->
+                    </div>
+                    <div class="metric">
+                        <span class="number">?</span> <!-- Le nombre réel sera injecté par JS -->
+                        <span class="label">Détections Haute Confiance</span> <!-- JS recherche ce texte -->
+                    </div>
+                    <div class="metric">
+                        <span class="number">?</span> <!-- Le nombre réel sera injecté par JS -->
+                        <span class="label">Détections Nominale Confiance</span> <!-- JS recherche ce texte -->
+                    </div>
+                     <div class="metric">
+                        <span class="number">?</span> <!-- Le nombre réel sera injecté par JS -->
+                        <span class="label">Détections Basse Confiance</span> <!-- JS recherche ce texte -->
+                    </div>
+                     <div class="metric">
+                        <span class="number">?</span> <!-- Le nombre réel sera injecté par JS -->
+                        <span class="label">Détections Confiance Inconnue</span> <!-- JS recherche ce texte -->
+                    </div>
+                     <!-- Si vous ajoutez des statistiques pour chaque satellite dans Python (ex: dans dashboard_stats['satellite_counts']), ajoutez aussi des divs.metric ici avec le libellé exact -->
+                     <!-- Exemple si vous ajoutez une stat 'MODIS Terra' : -->
+                     <!--
+                     <div class="metric">
+                        <span class="number">?</span>
+                        <span class="label">MODIS Terra</span>
+                     </div>
+                     -->
+                 </div> <!-- Fin .section-content -->
+            </section>
+
+            <!-- Panneau de Filtres de Date -->
+            <!-- Cette section est un ENFANT de #left-sidebar -->
+            <!-- ID #filter-section est utilisé par le script JS (aligné avec le script Python amélioré) -->
+            <section id="filter-section">
+                <h2>Filtrer par Date</h2>
+                 <!-- Ce div .section-content est le wrapper pour le contenu collapsible, utilisé par le JS -->
+                <div class="section-content">
+                    <div class="filter-group">
+                        <label for="filter-single-date">Date Unique:</label>
+                        <!-- Les IDs d'inputs #filter-single-date, #filter-start-date, #filter-end-date sont utilisés par le JS -->
+                        <input type="date" id="filter-single-date">
+                    </div>
+                     <div class="filter-group">
+                        <label for="filter-start-date">Date Début:</label>
+                        <input type="date" id="filter-start-date">
+                    </div>
+                    <div class="filter-group">
+                        <label for="filter-end-date">Date Fin:</label>
+                        <input type="date" id="filter-end-date">
+                    </div>
+                    <div class="filter-actions">
+                         <!-- Les IDs de boutons #apply-filters-btn et #clear-filters-btn sont utilisés par le JS -->
+                        <button id="apply-filters-btn">Appliquer Filtres</button>
+                        <button id="clear-filters-btn">Effacer Filtres</button>
+                    </div>
+                 </div> <!-- Fin .section-content -->
+            </section>
+
+            <!-- NOUVELLE SECTION: Système d'Alertes -->
+            <section id="alert-section">
+                <h2>🔔 Alertes en Temps Réel</h2>
+                <div class="section-content">
+                    <div class="alert-controls">
+                        <label class="alert-toggle">
+                            <input type="checkbox" id="alert-sound-toggle" checked>
+                            <span>Activer le son des alertes</span>
+                        </label>
+                        <div class="alert-threshold">
+                            <label for="alert-threshold-input">Seuil de confiance:</label>
+                            <input type="number" id="alert-threshold-input" value="80" min="0" max="100">
+                        </div>
+                    </div>
+                    <div id="alert-status" class="alert-status">Surveillance active...</div>
+                </div>
+            </section>
+
+            <!-- NOUVELLE SECTION: Données Météo -->
+            <section id="weather-section">
+                <h2>🌤️ Conditions Météorologiques</h2>
+                <div class="section-content">
+                    <p class="weather-loading">Chargement des données météo...</p>
+                </div>
+            </section>
+
+            <!-- NOUVELLE SECTION: Analyse Prédictive -->
+            <section id="prediction-section">
+                <h2>📊 Zones à Risque Élevé</h2>
+                <div class="section-content">
+                    <p class="prediction-loading">Analyse en cours...</p>
+                </div>
+            </section>
+
+            <!-- NOUVELLE SECTION: Comparaison Historique -->
+            <section id="historical-section">
+                <h2>📈 Tendances Historiques</h2>
+                <div class="section-content">
+                    <p class="historical-loading">Chargement des données historiques...</p>
+                    <button id="clear-history-btn" class="history-btn">Effacer l'historique</button>
+                </div>
+            </section>
+
+            <!-- NOUVELLE SECTION: Zones d'Intérêt -->
+            <section id="zones-section">
+                <h2>📍 Zones d'Intérêt Personnalisées</h2>
+                <div class="section-content">
+                    <p class="zones-loading">Chargement des zones...</p>
+                </div>
+            </section>
+
+             <!-- Section de la Liste de Détails (Optionnel: si vous voulez la réintégrer ici) -->
+             <!-- Cette section serait aussi un enfant de #left-sidebar si présente -->
+             <!-- ID #detail-list-panel est utilisé par le script JS (aligné avec le script Python amélioré) -->
+             <!--
+            <section id="detail-list-panel">
+                 <h2>Détections Récentes</h2>
+                 // Ce div .section-content est le wrapper pour le contenu collapsible, utilisé par le JS
+                 <div class="section-content list-content"> // Add .section-content class, list-content for specific list styles
+                     <div class="list-item">Chargement de la liste...</div>
+                 </div>
+             </section>
+             -->
+
+
+            <!-- Section des Graphiques -->
+            <!-- Cette section est un ENFANT de #left-sidebar -->
+            <!-- ID #charts-section est utilisé par le CSS et le script JS (pour le collapsible) -->
+            <section id="charts-section">
+                <h2>Graphiques des Détections</h2>
+                <!-- Ce div .section-content est le wrapper pour le contenu collapsible, utilisé par le JS -->
+                <div class="section-content">
+                    <!-- Le conteneur de graphiques utilise Flexbox (voir CSS) -->
+                    <div class="charts-container">
+                        <!-- Chaque graphique est une figure -->
+                        <!-- ASSUREZ-VOUS QUE LE CHEMIN VERS CHAQUE FICHIER PNG EST CORRECT (ex: src="charts/fires_per_day.png") -->
+                        <!-- loading="lazy" est une bonne pratique pour le chargement d'images hors écran -->
+                        <figure class="chart-item">
+                            <img src="charts/fires_per_day.png" alt="Graphique: Nombre de détections de feux par jour." loading="lazy">
+                            <figcaption>Détections par Jour.</figcaption>
+                        </figure>
+
+                        <figure class="chart-item">
+                            <img src="charts/confidence_distribution.png" alt="Graphique: Distribution de la confiance des détections." loading="lazy">
+                            <figcaption>Distribution de la Confiance.</figcaption>
+                        </figure>
+
+                         <figure class="chart-item">
+                            <img src="charts/fires_per_satellite.png" alt="Graphique: Nombre de détections par satellite." loading="lazy">
+                            <figcaption>Détections par Satellite.</figcaption>
+                        </figure>
+
+                        <!-- Ajoutez d'autres figures.chart-item ici si vous avez généré plus de graphiques -->
+                    </div>
+                 </div> <!-- Fin .section-content -->
+            </section>
+
+            <!-- Section du Tableau de Données -->
+            <!-- Cette section est un ENFANT de #left-sidebar -->
+            <!-- ID #data-table-section (la section) et #fire-table (le tableau) sont CRUCIAUX pour le CSS et le JS (Simple-DataTables) -->
+            <section id="data-table-section">
+                <h2>Données Tabulaires</h2>
+                <!-- Ce div .section-content est le wrapper pour le contenu collapsible, utilisé par le JS -->
+                <div class="section-content">
+                    <!-- Simple-datatables s'initialise sur l'élément <table id="fire-table"> -->
+                    <!-- Il ajoute automatiquement les contrôles (recherche, pagination, select de lignes) -->
+                    <table id="fire-table">
+                        <thead>
+                            <tr>
+                                <!-- Les en-têtes de colonne DOIVENT correspondre à l'ordre des données fournies par le script Python dans js_records -->
+                                <th>Date</th>         <!-- Index 0 dans js_records -->
+                                <th>Heure</th>        <!-- Index 1 dans js_records -->
+                                <th>Latitude</th>     <!-- Index 2 dans js_records -->
+                                <th>Longitude</th>    <!-- Index 3 dans js_records -->
+                                <th>Luminosité (K)</th> <!-- Index 4 dans js_records - contient l'HTML de l'emoji -->
+                                <th>Confiance</th>    <!-- Index 5 dans js_records (chaîne) -->
+                                <th>Satellite</th>    <!-- Index 6 dans js_records -->
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Contenu initial affiché pendant le chargement du JS -->
+                            <tr>
+                                <td colspan="7" style="text-align: center;">Chargement des données...</td>
+                            </tr>
+                            <!-- Le script JS (simple-datatables et fire_data.js) peuplera le tbody ici -->
+                        </tbody>
+                    </table>
+                 </div> <!-- Fin .section-content -->
+            </section>
+
+        </div> <!-- Fin de #left-sidebar -->
+
+        <!-- SECTION PRINCIPALE DROITE : Carte Interactive -->
+        <!-- Cette section est un élément direct de main (PAS dans #left-sidebar) -->
+        <!-- ID #interactive-map-section est utilisé par le CSS Grid pour le positionnement -->
+        <section id="interactive-map-section">
+            <!-- Le titre H2 pour la carte est généralement masqué visuellement dans ce type de mise en page (voir CSS) -->
+            <!-- <h2>Carte Interactive</h2> -->
+            
+            <!-- Légende de la carte -->
+            <div class="map-legend">
+                <h4>🗺️ Légende de la Carte</h4>
+                <div class="legend-item">
+                    <span class="legend-icon" style="background: red;"></span>
+                    <span>Intensité TRÈS ÉLEVÉE (Luminosité > 380K ou Confiance > 90%)</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-icon" style="background: #FF6600;"></span>
+                    <span>Intensité ÉLEVÉE (Luminosité > 340K ou Confiance > 70%)</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-icon" style="background: #FFAA00;"></span>
+                    <span>Intensité MODÉRÉE (Luminosité < 340K)</span>
+                </div>
+                <div class="legend-divider"></div>
+                <div class="legend-note">
+                    <strong>🔥 Polygones:</strong> Zones regroupant plusieurs détections de feu<br>
+                    <strong>📍 Points:</strong> Détections individuelles de feu
+                </div>
+            </div>
+            
+            <!-- L'iframe charge la carte HTML générée par Folium -->
+            <!-- ASSUREZ-VOUS QUE LE CHEMIN VERS firms_tcd_map.html EST CORRECT (ex: src="firms_tcd_map.html") -->
+            <!-- 'title' est important pour l'accessibilité (lecteurs d'écran) -->
+            <!-- L'iframe remplira sa cellule de grille (height: 100% géré par CSS) -->
+            <iframe src="firms_tcd_map.html" title="Carte interactive des feux de brousse au Tchad basée sur les données NASA FIRMS">
+                Votre navigateur ne supporte pas les iframes, ou la carte n'a pas pu être chargée.
+            </iframe>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>© 2025 Nexus Geo-Élec | Données : <a href="https://firms.modaps.eosdis.nasa.gov/" target="_blank" rel="noopener noreferrer">NASA FIRMS</a></p>
+         <!-- Optionnel: Informations légales, version, etc. -->
+    </footer>
+
+    <!-- Scripts JavaScript -->
+    <!-- Script pour simple-datatables (Doit être chargé AVANT votre script personnalisé qui l'utilise) -->
+    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
+    <!-- Votre script personnalisé (chargé APRÈS la bibliothèque qu'il utilise et juste avant </body>) -->
+    <!-- Ce script PEUPLE LE HTML (stats, liste, tableau) et INITIALISE simple-datatables -->
+    <!-- ASSUREZ-VOUS QUE LE CHEMIN VERS fire_data.js EST CORRECT (ex: src="fire_data.js") -->
+    <script src="fire_data.js"></script>
+
+</body>
+</html>
