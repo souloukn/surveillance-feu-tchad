@@ -1,0 +1,28 @@
+<svg width="120" height="40" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="fireGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#ff0040;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#ff8c00;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#00ffff;stop-opacity:1" />
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="120" height="40" fill="rgba(5,8,16,0.9)" rx="4"/>
+  
+  <!-- Fire icon -->
+  <g filter="url(#glow)">
+    <path d="M 15 25 Q 15 18 20 15 Q 18 20 22 20 Q 22 12 28 10 Q 28 18 30 18 Q 32 10 35 8 Q 35 15 32 20 Q 38 18 38 25 Q 38 32 28 32 Q 18 32 15 25 Z" fill="url(#fireGrad)"/>
+  </g>
+  
+  <!-- Text -->
+  <text x="45" y="18" font-family="Orbitron, monospace" font-size="10" font-weight="bold" fill="#00ffff" filter="url(#glow)">NEXUS</text>
+  <text x="45" y="30" font-family="Orbitron, monospace" font-size="8" fill="#ff8c00">GEO-ÉLEC</text>
+</svg>
