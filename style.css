@@ -1,1247 +1,723 @@
-/* style.css - Thème sombre + Grid Layout 2 Colonnes (Sidebar + Map) + Nouveaux Contrôles */
+/* style.css - Cyber Map Theme (Deteque-inspired) */
 
 /* --- Base Styles & Reset --- */
 *, *::before, *::after {
-    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+    box-sizing: border-box;
+}
+
+/* Animated Background Particles */
+@keyframes float {
+    0%, 100% { transform: translateY(0px) translateX(0px); opacity: 0.3; }
+    25% { transform: translateY(-20px) translateX(10px); opacity: 0.5; }
+    50% { transform: translateY(-10px) translateX(-10px); opacity: 0.4; }
+    75% { transform: translateY(-30px) translateX(5px); opacity: 0.6; }
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 0.2; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(1.1); }
 }
 
 body {
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
-    background-color: #1e1e1e; /* Dark background */
+    font-family: 'Courier New', 'Consolas', monospace;
+    background: linear-gradient(135deg, #0a1628 0%, #1a2332 50%, #0d1b2a 100%);
     margin: 0;
     padding: 0;
     line-height: 1.6;
-    color: #cccccc; /* Light grey text */
-    min-height: 100vh; /* Ensure body takes at least the full viewport height */
+    color: #00d9ff;
+    min-height: 100vh;
     display: flex;
-    flex-direction: column; /* Stack children (header, main, footer) vertically */
-    overflow-x: hidden; /* Prevent horizontal scrolling caused by wide elements */
-    /* overflow-y: auto; /* Allow body to scroll vertically if overall content exceeds viewport height - Usually better to manage scroll on specific containers */
+    flex-direction: column;
+    overflow-x: hidden;
+    position: relative;
 }
 
-/* Define CSS variables for heights/paddings for height calculations */
-body {
-    --header-min-height: 50px; /* Approx height of logo */
-    --header-padding-vertical: 1.6rem; /* 0.8rem * 2 */
-    --header-margin-bottom: 0.8rem;
-    --footer-min-height: 0.8rem; /* Approx footer text height */
-    --footer-padding-vertical: 1.6rem; /* 0.8rem * 2 */
-    --main-padding-vertical: 0.8rem; /* 0.8rem at top and bottom */
-    --main-padding-bottom: 0.8rem; /* Just the bottom padding of main */
-    --main-gap: 0.8rem; /* Gap used in main grid/flex */
+/* Animated Background Effect */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        radial-gradient(2px 2px at 20% 30%, rgba(0, 217, 255, 0.3), transparent),
+        radial-gradient(2px 2px at 60% 70%, rgba(255, 77, 109, 0.2), transparent),
+        radial-gradient(1px 1px at 50% 50%, rgba(0, 217, 255, 0.2), transparent),
+        radial-gradient(2px 2px at 80% 10%, rgba(255, 107, 107, 0.3), transparent);
+    background-size: 200px 200px, 300px 300px, 250px 250px, 280px 280px;
+    background-position: 0 0, 40px 60px, 130px 270px, 70px 100px;
+    animation: float 20s ease-in-out infinite;
+    pointer-events: none;
+    z-index: 0;
 }
 
-/* --- Header --- */
+:root {
+    --cyber-blue: #00d9ff;
+    --cyber-pink: #ff4d6d;
+    --cyber-red: #ff6b6b;
+    --cyber-green: #00ff88;
+    --dark-navy: #0a1628;
+    --dark-blue: #0d1b2a;
+    --medium-blue: #1a2332;
+    --border-glow: rgba(0, 217, 255, 0.3);
+}
+
+/* --- Cyber Header --- */
 header {
-    background-color: #282828; /* Header background */
-    color: #eeeeee; /* Header text */
-    padding: 0.8rem 1.5rem; /* Adjusted padding */
-    margin-bottom: 0.8rem;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); /* Slight shadow */
-    text-align: left; /* Default text alignment */
-    position: relative; /* Needed for absolute positioning of refresh indicator */
-    flex-shrink: 0; /* Prevent header from shrinking */
-    z-index: 2; /* Ensure header is above main content */
+    background: linear-gradient(90deg, rgba(10, 22, 40, 0.95) 0%, rgba(13, 27, 42, 0.95) 100%);
+    backdrop-filter: blur(10px);
+    border-bottom: 2px solid var(--border-glow);
+    box-shadow: 0 4px 20px rgba(0, 217, 255, 0.2), inset 0 1px 0 rgba(0, 217, 255, 0.1);
+    padding: 1rem 2rem;
+    margin-bottom: 0;
+    position: relative;
+    flex-shrink: 0;
+    z-index: 1000;
 }
 
 header .header-content {
-    display: flex; /* Enable Flexbox for logo and title alignment */
-    align-items: center; /* Vertical alignment in the center */
-    max-width: 1600px; /* Limit header content width */
-    margin: 0 auto; /* Center header content */
-    gap: 1rem; /* Space between flex items (logo and text group) */
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    max-width: 100%;
+    gap: 2rem;
 }
 
-/* Style for the logo */
+/* Logo with glow */
 header .site-logo {
-    height: var(--header-min-height); /* Logo height */
-    flex-shrink: 0; /* Prevent logo from shrinking */
-    object-fit: contain; /* Ensure image doesn't distort */
+    height: 45px;
+    flex-shrink: 0;
+    filter: drop-shadow(0 0 10px rgba(0, 217, 255, 0.5));
+    animation: pulse 3s ease-in-out infinite;
 }
 
-/* Container for the title and subtitle */
+/* Title Group */
 header .header-title-group {
-    flex-grow: 1; /* Allow text group to take remaining space */
-    text-align: left; /* Ensure text inside is left-aligned */
+    text-align: left;
 }
 
 header .header-title-group h1 {
     margin: 0;
-    font-size: 2rem;
-    font-weight: 600;
-    color: #00bcd4; /* Accent color for title */
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--cyber-blue);
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    text-shadow: 0 0 10px rgba(0, 217, 255, 0.5), 0 0 20px rgba(0, 217, 255, 0.3);
 }
 
 header .header-title-group p {
-    margin-top: 0.3rem;
-    font-size: 1rem;
-    opacity: 0.8; /* Slightly transparent text */
+    margin: 0.2rem 0 0 0;
+    font-size: 0.75rem;
+    color: rgba(0, 217, 255, 0.7);
+    text-transform: uppercase;
+    letter-spacing: 2px;
 }
 
-/* Auto Refresh Indicator */
+/* Real-Time Clock */
 .auto-refresh-indicator {
-    position: absolute; /* Position relative to the header */
-    top: 10px; /* Distance from the top */
-    right: 10px; /* Distance from the right */
-    font-size: 0.85rem; /* Font size */
-    color: #aaaaaa; /* Text color */
-    background-color: #333; /* Slightly darker background */
-    padding: 0.3rem 0.6rem;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    font-size: 0.75rem;
+    color: var(--cyber-blue);
+    background: rgba(0, 217, 255, 0.1);
+    border: 1px solid var(--border-glow);
+    padding: 0.5rem 1rem;
     border-radius: 4px;
-    z-index: 10; /* Ensure it's above other header elements */
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: 0 0 15px rgba(0, 217, 255, 0.2);
 }
+
+.auto-refresh-indicator::before {
+    content: '🕐';
+    font-size: 1.2rem;
+    animation: pulse 2s ease-in-out infinite;
+}
+
 .auto-refresh-indicator #refresh-countdown {
     font-weight: bold;
-    color: #eeeeee; /* Countdown color */
+    color: var(--cyber-green);
+    text-shadow: 0 0 5px rgba(0, 255, 136, 0.5);
 }
 
 
-/* --- Main Content Layout (using CSS Grid - 2 Columns) --- */
+/* --- Main Layout: Full Screen Map with Overlay Panels --- */
 main {
-    flex-grow: 1; /* Allow main content to take remaining vertical space */
-    padding: 0 var(--main-padding-vertical) var(--main-padding-bottom) var(--main-padding-vertical); /* Padding around main content */
-    max-width: 1600px; /* Max width of the dashboard area */
-    margin: 0 auto; /* Center main content */
-    display: grid; /* Activate Grid layout */
-    grid-template-areas: "sidebar map"; /* Define grid areas */
-    /* Sidebar fixed width (320px), map takes remaining space (1fr) */
-    grid-template-columns: 320px 1fr;
-    grid-template-rows: 1fr; /* **FIX:** One row that takes all available height in the grid container */
-    gap: var(--main-gap); /* Space between grid items (sidebar and map) */
-    width: 100%; /* Ensure main uses full width up to max-width */
-    min-height: 0; /* Allow flex item (main) to shrink below its content's minimum size */
-
-    /* **FIX:** Calculate remaining height for main based on header and footer */
-    /* This ensures the grid container has a definite height for 1fr row to work */
-    /* Adjust calculation if header/footer height changes */
-    height: calc(100vh - (var(--header-min-height) + var(--header-padding-vertical) + var(--header-margin-bottom)) - (var(--footer-min-height) + var(--footer-padding-vertical)) - (var(--main-padding-bottom)));
-    /* Note: This calc might be complex and depends on box-sizing. Test carefully. */
-    /* Alternative: simpler fixed height like height: 80vh; but less flexible */
-    /* Let's stick with the calc for now, ensuring box-sizing: border-box is everywhere */
-}
-
-
-/* --- Left Sidebar Container --- */
-#left-sidebar {
-    grid-area: sidebar; /* Positionne dans la zone de grille 'sidebar' */
-    display: flex; /* Utilise Flexbox pour empiler les sections verticalement */
-    flex-direction: column;
-    gap: 0.8rem; /* Espace entre les sections */
-    overflow-y: auto; /* **FIX:** Adds vertical scrollbar if content overflows */
-    background-color: #282828; /* Background matching sections */
-    padding: 0.8rem; /* Uniform padding inside the sidebar */
-    border-radius: 4px;
-    max-height: 100%; /* **FIX:** Crucial for overflow-y: auto to work within grid cell's 1fr height */
-    box-sizing: border-box; /* **FIX:** Ensure padding is included in max-height */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Add sidebar container shadow */
-}
-
-/* Styles génériques pour les sections inside the sidebar */
-#left-sidebar section {
-    background-color: transparent; /* Make section background transparent */
-    padding: 0; /* Remove section padding, apply padding to inner content */
-    border-radius: 4px;
-    overflow: hidden; /* Manage content overflow within the section */
-    display: flex;
-    flex-direction: column;
-    flex-shrink: 0; /* Prevent sections from shrinking unnaturally */
-    box-shadow: none; /* Remove shadow on sections if sidebar has one */
-     margin-bottom: 0; /* Remove margin between sections as gap is on parent */
-     /* Add a subtle border to separate sections */
-     border: 1px solid #333;
-}
-
-
-/* Styles des titres de section (in the sidebar) - Used as collapsible headers */
-#left-sidebar section h2 {
-    color: #00bcd4; /* Accent color for titles */
+    flex-grow: 1;
+    position: relative;
+    width: 100%;
+    height: calc(100vh - 85px);
+    padding: 0;
     margin: 0;
-    padding: 0.8rem 1rem; /* Padding for the clickable header */
-    font-size: 1.3rem; /* Adjusted font size for sidebar titles */
-    font-weight: 600;
-    background-color: #333; /* Slightly darker background for header */
-    cursor: pointer; /* Indicate it's cliquable */
-    user-select: none; /* Prevent text selection on click */
-    display: flex; /* Use flex to align title and optional icon */
-    justify-content: space-between; /* Space out title and icon */
-    align-items: center;
-    border-bottom: 1px solid #444; /* Separator line */
-    transition: border-bottom 0.3s ease; /* Transition for the border */
-    flex-shrink: 0; /* Prevent header from shrinking */
-     border-top-left-radius: 3px; /* Match parent border-radius - slightly smaller */
-     border-top-right-radius: 3px;
-     background-color: #3a3a3a; /* Slightly different background for header */
-}
-#left-sidebar section:first-child h2 { border-top-left-radius: 4px; border-top-right-radius: 4px; } /* Match sidebar radius for first section header */
-
-
-/* Add arrow indicator to headers */
-#left-sidebar section h2.collapsible-header::after {
-    content: '▼'; /* Down arrow */
-    display: inline-block;
-    margin-left: 10px;
-    transition: transform 0.3s ease;
-    font-size: 0.8em;
-    color: #aaaaaa;
+    z-index: 1;
 }
 
-/* Rotate arrow when section is expanded */
-#left-sidebar section.expanded h2.collapsible-header::after {
-    transform: rotate(180deg); /* Up arrow */
+/* Full Screen Map */
+#interactive-map-section {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
 }
 
-/* Styles for the collapsible content wrapper managed by JS */
-#left-sidebar section .section-content {
-    padding: 1rem; /* Add padding back to the content area */
-    max-height: 2000px; /* **Adjusted:** A larger value to ensure content fits when expanded */
-    overflow: hidden; /* Hide content when max-height is restricted */
-    transition: max-height 0.3s ease-out, padding-top 0.3s ease-out, padding-bottom 0.3s ease-out; /* Smooth transition */
-     border-top: 1px solid #444; /* Border between header and content */
-     box-sizing: border-box; /* Include padding in max-height */
-     flex-grow: 1; /* Allow content to grow if needed within section (e.g., table) */
-     display: flex; /* Use flex to stack content elements inside */
-     flex-direction: column;
-     /* Added rounded bottom corners to content */
-     border-bottom-left-radius: 4px;
-     border-bottom-right-radius: 4px;
+#interactive-map-section iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: block;
 }
 
-/* State when section is collapsed - Managed by the class added by JS */
-#left-sidebar section.collapsed .section-content {
-    max-height: 0; /* Collapse the content */
-    padding-top: 0; /* Remove padding when collapsed */
-    padding-bottom: 0;
-    visibility: hidden; /* Hide content visually without affecting layout flow excessively */
-     border-top: none; /* No border when collapsed */
-}
-
-/* Remove bottom border from header when section is collapsed */
-#left-sidebar section.collapsed h2 {
-     border-bottom: none;
-     border-bottom-left-radius: 4px; /* Round bottom corners of header when collapsed */
-     border-bottom-right-radius: 4px;
-}
-
-
-/* --- Specific Section Styles (within the sidebar) --- */
-
-/* Stats Panel */
-#stats-section .metric {
-    margin-bottom: 1rem; /* Espace entre les métriques */
-    padding-bottom: 1rem;
-    border-bottom: 1px solid #333; /* Séparateur */
-    display: flex; /* Utilise flex pour empiler nombre et label */
-    flex-direction: column;
-}
-#stats-section .metric:last-child { border-bottom: none; padding-bottom: 0; margin-bottom: 0;} /* Pas de bordure/margin sous la dernière métrique */
-#stats-section .metric .number {
-    font-size: 2.8rem;
-    font-weight: 700;
-    color: #eeeeee;
-    margin-bottom: 0.2rem;
-}
-#stats-section .metric .label {
-    font-size: 0.9rem;
-    color: #cccccc;
-    text-transform: uppercase;
-    opacity: 0.9;
-}
-
-/* Date Filters Panel */
-#filter-section .filter-group {
-    margin-bottom: 0.8rem;
+/* Overlay Panels Container */
+#left-sidebar {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    width: 380px;
+    max-height: calc(100% - 2rem);
+    overflow-y: auto;
+    z-index: 100;
     display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    pointer-events: none;
+}
+
+#left-sidebar::-webkit-scrollbar {
+    width: 6px;
+}
+
+#left-sidebar::-webkit-scrollbar-track {
+    background: rgba(10, 22, 40, 0.3);
+    border-radius: 3px;
+}
+
+#left-sidebar::-webkit-scrollbar-thumb {
+    background: var(--border-glow);
+    border-radius: 3px;
+}
+
+#left-sidebar::-webkit-scrollbar-thumb:hover {
+    background: var(--cyber-blue);
+}
+
+/* --- Glass Morphism Panels --- */
+#left-sidebar section {
+    background: rgba(10, 22, 40, 0.85);
+    backdrop-filter: blur(15px);
+    border: 1px solid var(--border-glow);
+    border-radius: 8px;
+    box-shadow: 0 8px 32px rgba(0, 217, 255, 0.15), inset 0 1px 0 rgba(0, 217, 255, 0.1);
+    overflow: hidden;
+    flex-shrink: 0;
+    pointer-events: auto;
+    transition: all 0.3s ease;
+}
+
+#left-sidebar section:hover {
+    border-color: var(--cyber-blue);
+    box-shadow: 0 8px 40px rgba(0, 217, 255, 0.3), inset 0 1px 0 rgba(0, 217, 255, 0.2);
+}
+
+/* Section Headers */
+#left-sidebar section h2 {
+    color: var(--cyber-blue);
+    margin: 0;
+    padding: 0.8rem 1rem;
+    font-size: 0.85rem;
+    font-weight: 700;
+    background: rgba(0, 217, 255, 0.05);
+    cursor: pointer;
+    user-select: none;
+    display: flex;
+    justify-content: space-between;
     align-items: center;
-    gap: 0.5rem;
+    border-bottom: 1px solid rgba(0, 217, 255, 0.2);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-shadow: 0 0 10px rgba(0, 217, 255, 0.3);
 }
+
+#left-sidebar section h2.collapsible-header::after {
+    content: '▼';
+    font-size: 0.7em;
+    color: var(--cyber-blue);
+    transition: transform 0.3s ease;
+}
+
+#left-sidebar section.expanded h2.collapsible-header::after {
+    transform: rotate(180deg);
+}
+
+/* Section Content */
+#left-sidebar section .section-content {
+    padding: 1rem;
+    max-height: 2000px;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out, padding 0.3s ease-out;
+}
+
+#left-sidebar section.collapsed .section-content {
+    max-height: 0;
+    padding: 0;
+    visibility: hidden;
+}
+
+#left-sidebar section.collapsed h2 {
+    border-bottom: none;
+}
+
+
+/* --- Stats Panel with Cyber Style --- */
+#stats-section .section-content {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.8rem;
+}
+
+#stats-section .metric {
+    background: linear-gradient(135deg, rgba(0, 217, 255, 0.05) 0%, rgba(255, 77, 109, 0.05) 100%);
+    border: 1px solid rgba(0, 217, 255, 0.2);
+    border-radius: 6px;
+    padding: 0.8rem;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+#stats-section .metric:hover {
+    border-color: var(--cyber-blue);
+    box-shadow: 0 0 20px rgba(0, 217, 255, 0.3);
+    transform: translateY(-2px);
+}
+
+#stats-section .metric .number {
+    font-size: 2rem;
+    font-weight: 900;
+    color: var(--cyber-green);
+    margin-bottom: 0.3rem;
+    text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
+    font-family: 'Courier New', monospace;
+}
+
+#stats-section .metric .label {
+    font-size: 0.65rem;
+    color: rgba(0, 217, 255, 0.8);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* --- Date Filters with Cyber Style --- */
+#filter-section .filter-group {
+    margin-bottom: 0.6rem;
+}
+
 #filter-section label {
-    flex-shrink: 0; /* Prevent label from shrinking */
-    font-size: 0.9rem;
-    color: #cccccc;
-    min-width: 90px; /* Minimum width for labels */
+    display: block;
+    font-size: 0.7rem;
+    color: var(--cyber-blue);
+    margin-bottom: 0.3rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
+
 #filter-section input[type="date"] {
-    flex-grow: 1; /* Input takes remaining space */
-    background-color: #333;
-    color: #eeeeee;
-    border: 1px solid #555;
-    padding: 0.4rem 0.6rem;
+    width: 100%;
+    background: rgba(0, 217, 255, 0.05);
+    color: var(--cyber-blue);
+    border: 1px solid var(--border-glow);
+    padding: 0.5rem;
     border-radius: 4px;
-    font-size: 0.9rem;
-    min-width: 0; /* Allow input to shrink */
+    font-size: 0.8rem;
+    font-family: 'Courier New', monospace;
+    transition: all 0.3s ease;
 }
-/* Style pour l'icône du calendrier dans les inputs type="date" (webkit) */
+
 #filter-section input[type="date"]::-webkit-calendar-picker-indicator {
-    filter: invert(0.8); /* Invert colors for dark theme */
-    cursor: pointer; /* Indicate it's clickable */
+    filter: invert(1) brightness(1.5);
+    cursor: pointer;
 }
-/* Style pour les flèches de spin (optionnel, souvent masqué) */
-/* #filter-section input[type="date"]::-webkit-inner-spin-button {
-    filter: invert(0.8);
-} */
 
 #filter-section input[type="date"]:focus {
-    border-color: #00bcd4; /* Accent border on focus */
-    outline: none; /* Remove default outline */
+    border-color: var(--cyber-blue);
+    box-shadow: 0 0 10px rgba(0, 217, 255, 0.3);
+    outline: none;
 }
 
 #filter-section .filter-actions {
     margin-top: 1rem;
     display: flex;
-    gap: 0.8rem;
-    justify-content: flex-end; /* Align buttons to the right */
+    gap: 0.5rem;
 }
+
 #filter-section button {
-    background-color: #00bcd4; /* Accent color */
-    color: white;
-    border: none;
-    padding: 0.5rem 1rem;
+    flex: 1;
+    background: linear-gradient(135deg, var(--cyber-blue) 0%, rgba(0, 217, 255, 0.7) 100%);
+    color: var(--dark-navy);
+    border: 1px solid var(--cyber-blue);
+    padding: 0.6rem 1rem;
     border-radius: 4px;
     cursor: pointer;
-    font-size: 0.9rem;
-    transition: background-color 0.2s ease; /* Smooth transition on hover */
-}
-#filter-section button:hover {
-    background-color: #0097a7; /* Darken on hover */
-}
-#filter-section button:active {
-    background-color: #006064; /* Even darker on click */
-}
-#filter-section button#clear-filters-btn {
-    background-color: #555; /* Clear button grey */
-}
-#filter-section button#clear-filters-btn:hover {
-     background-color: #666;
-}
-
-/* Optional Detail List Section Styling (if re-added) */
-/* #detail-list-panel .section-content.list-content { }
-#detail-list-panel .list-item {
-    border-bottom: 1px solid #333;
-    padding: 0.5rem 0;
-    font-size: 0.85rem;
-    color: #cccccc;
-}
-#detail-list-panel .list-item:last-child { border-bottom: none; } */
-
-
-/* Charts Section */
-#charts-section .section-content {
-    /* Padding already set by .section-content */
-    /* Allow the charts container to take full width */
-    align-items: stretch;
-}
-#charts-section .charts-container {
-    display: flex;
-    flex-wrap: wrap; /* Allow charts to wrap */
-    gap: 0.8rem; /* Space between charts */
-    justify-content: center; /* Center charts if space allows */
-    margin-top: 0.5rem;
-    padding: 0;
-}
-#charts-section .chart-item {
-    flex: 1 1 250px; /* Flex-grow, flex-shrink, flex-basis */
-    max-width: 100%;
-    margin: 0;
-    text-align: center;
-    background-color: #282828; /* Figure background (can be transparent) */
-    padding: 0;
-    border-radius: 4px;
-    box-shadow: none; /* No shadow on figures themselves if section has one */
-    display: flex;
-    flex-direction: column; /* Stack image and caption */
-    justify-content: space-between; /* Space between img and figcaption */
-    overflow: hidden;
-}
-#charts-section .chart-item img {
-    display: block;
-    max-width: 100%; /* Image takes full width of figure */
-    height: auto; /* Maintain aspect ratio */
-    border-radius: 0;
-    margin-bottom: 0.5rem;
-}
-#charts-section .chart-item figcaption {
-    font-size: 0.75rem;
-    color: #aaaaaa;
-    margin-top: auto; /* Push caption to the bottom */
-    padding: 0.5rem;
-    background-color: #333; /* Caption background */
-}
-
-
-/* Data Table Section */
-#data-table-section {
-    /* Allow table section to expand in the sidebar if other sections are collapsed */
-    flex-grow: 1;
-    /* overflow: hidden; /* Sidebar manages global scrolling, simple-datatables manages internal scrolling if fixedHeight is true */
-}
-#data-table-section .section-content {
-    /* fixedHeight: true in JS requires .dataTable-container to have a height */
-    /* Simple-datatables adds height to the container, so we might not need specific CSS here */
-    /* Ensure table elements are stretched within the flex container */
-    align-items: stretch;
-    min-height: 0; /* Allow the table content to shrink */
-    /* Add some padding to the bottom of the table container if needed */
-     padding-bottom: 0.5rem;
-}
-
-
-/* Styles pour le Tableau (thème sombre) */
-#fire-table {
-    width: 100%; /* Table takes full width of its container */
-    border-collapse: collapse; /* Collapse borders */
-    margin-top: 0.5rem; /* Space above table (inside .section-content padding) */
-    font-size: 0.85rem;
-    /* background-color: #282828; /* Simple-datatables might manage background */
-}
-
-#fire-table thead { background-color: #333; color: #eeeeee; } /* Header background */
-#fire-table th, #fire-table td {
-    text-align: left;
-    padding: 8px 10px; /* Cell padding */
-    border-bottom: 1px solid #444; /* Border below cells */
-    color: #cccccc;
-}
-#fire-table th {
-    font-weight: 600;
+    font-size: 0.7rem;
+    font-weight: 700;
     text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 10px rgba(0, 217, 255, 0.3);
+}
+
+#filter-section button:hover {
+    background: var(--cyber-blue);
+    box-shadow: 0 0 20px rgba(0, 217, 255, 0.6);
+    transform: translateY(-2px);
+}
+
+#filter-section button#clear-filters-btn {
+    background: rgba(255, 77, 109, 0.2);
+    border-color: var(--cyber-pink);
+    color: var(--cyber-pink);
+}
+
+#filter-section button#clear-filters-btn:hover {
+    background: var(--cyber-pink);
+    color: white;
+    box-shadow: 0 0 20px rgba(255, 77, 109, 0.6);
+}
+
+/* --- Charts Section --- */
+#charts-section .charts-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.8rem;
+}
+
+#charts-section .chart-item {
+    background: rgba(0, 217, 255, 0.03);
+    border: 1px solid rgba(0, 217, 255, 0.15);
+    border-radius: 6px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+#charts-section .chart-item:hover {
+    border-color: var(--cyber-blue);
+    box-shadow: 0 0 15px rgba(0, 217, 255, 0.2);
+}
+
+#charts-section .chart-item img {
+    width: 100%;
+    height: auto;
+    display: block;
+    filter: brightness(0.9) contrast(1.1);
+}
+
+#charts-section .chart-item figcaption {
+    font-size: 0.7rem;
+    color: var(--cyber-blue);
+    padding: 0.6rem;
+    text-align: center;
+    background: rgba(0, 217, 255, 0.05);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+
+/* --- Data Table with Cyber Styling --- */
+#data-table-section {
+    flex-grow: 1;
+}
+
+#fire-table {
+    width: 100%;
+    border-collapse: collapse;
     font-size: 0.75rem;
-    letter-spacing: 0.03em; /* Letter spacing */
+    font-family: 'Courier New', monospace;
 }
-#fire-table tbody tr:nth-child(even) { background-color: #2e2e2e; } /* Slightly darker even rows */
-#fire-table tbody tr:hover { background-color: #383838; cursor: pointer; } /* Highlight on hover */
-#fire-table tbody tr:last-child td { border-bottom: none; } /* No border below last row */
 
-/* simple-datatables specific adjustments (Overrides) */
-/* The wrapper created by simple-datatables */
+#fire-table thead {
+    background: linear-gradient(135deg, rgba(0, 217, 255, 0.1) 0%, rgba(0, 217, 255, 0.05) 100%);
+    color: var(--cyber-blue);
+}
+
+#fire-table th {
+    text-align: left;
+    padding: 0.6rem 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.65rem;
+    letter-spacing: 1px;
+    border-bottom: 1px solid var(--border-glow);
+}
+
+#fire-table td {
+    padding: 0.5rem 0.8rem;
+    border-bottom: 1px solid rgba(0, 217, 255, 0.1);
+    color: rgba(0, 217, 255, 0.8);
+}
+
+#fire-table tbody tr {
+    background: transparent;
+    transition: all 0.2s ease;
+}
+
+#fire-table tbody tr:hover {
+    background: rgba(0, 217, 255, 0.05);
+    box-shadow: inset 0 0 10px rgba(0, 217, 255, 0.1);
+}
+
+#fire-table tbody tr:nth-child(even) {
+    background: rgba(0, 217, 255, 0.02);
+}
+
+/* Simple DataTables Overrides */
 .dataTable-wrapper {
-     border: 1px solid #444; /* Border around simple-datatables wrapper */
-     border-radius: 4px; /* Rounded corners */
-     overflow: hidden; /* Ensure content inside respects rounded corners */
-     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Shadow */
-     margin-top: 0.5rem; /* Space above wrapper if table n'a pas de margin-top */
-     margin-bottom: 0.5rem; /* Space below wrapper */
-     flex-grow: 1; /* Allow the wrapper to grow within its flex parent (.section-content) */
-     display: flex; /* Simple-datatables uses flex internally */
-     flex-direction: column;
-     min-height: 0; /* Allow shrinking */
+    border: 1px solid var(--border-glow);
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 217, 255, 0.1);
 }
 
-/* Style of simple-datatables controls (search, pagination, etc.) */
-.dataTable-top, .dataTable-bottom {
-     background-color: #282828; /* Controls background */
-     color: #cccccc;
-     /* Borders removed here as they are on the wrapper .dataTable-wrapper */
-     padding: 0.6rem 1rem; /* Controls padding */
-     font-size: 0.85rem;
-     display: flex; /* Use flex to align elements */
-     justify-content: space-between; /* Space out elements */
-     align-items: center; /* Vertical alignment */
-     flex-wrap: wrap; /* Allow elements to wrap on smaller screens */
-     gap: 0.5rem; /* Space between flex items */
-     flex-shrink: 0; /* Prevent controls from shrinking */
+.dataTable-top,
+.dataTable-bottom {
+    background: rgba(0, 217, 255, 0.03);
+    color: var(--cyber-blue);
+    padding: 0.6rem;
+    font-size: 0.7rem;
+    border-bottom: 1px solid var(--border-glow);
 }
 
-/* The table container managed by simple-datatables (contains the <table>) */
 .dataTable-container {
-    border: none !important; /* Remove default simple-datatables border */
-    overflow-x: auto !important; /* Allow horizontal scrolling if table is too wide */
-    /* **FIX:** Ensure vertical scroll for the table body when fixedHeight is true */
-    /* Simple-datatables manages overflow-y when fixedHeight is true, but sometimes adding it here helps */
-    /* overflow-y: auto !important; */
-    background-color: #282828; /* Ensure dark background inside container */
-     flex-grow: 1; /* Allow the container to grow within its flex parent (.dataTable-wrapper) */
-     min-height: 0; /* Allow the flex item to shrink below its content size */
-}
-/* Reset styles of the original table after adding the wrapper */
-.dataTable-container table {
-     border: none !important;
-     margin-top: 0 !important; /* Reset margin if simple-datatables adds it */
-     background-color: #282828; /* Ensure table background is dark */
-}
-/* Ensure table cell styles inside the container */
-.dataTable-container table thead tr th,
-.dataTable-container table tbody tr td {
-    /* Padding, borders, colors already defined above for #fire-table */
+    background: transparent;
+    max-height: 400px;
+    overflow-y: auto;
 }
 
-
-/* Style of inputs (search and select) */
-.dataTable-selector, .dataTable-input {
-     background-color: #333;
-     color: #eeeeee;
-     border: 1px solid #555;
-     padding: 0.3rem 0.5rem;
-     border-radius: 4px;
-     font-size: 0.85rem;
-     max-width: 180px; /* Limit input width */
-     min-width: 0; /* Allow shrinking */
-}
-.dataTable-selector { padding-right: 1.5rem; } /* Space for select arrow */
-
-/* Style of sort icons */
-.dataTable-sorter { color: #eeeeee !important; }
-.dataTable-sorter::before, .dataTable-sorter::after { border-bottom-color: #eeeeee !important; border-top-color: #eeeeee !important;}
-
-/* Focus style for inputs */
-.dataTable-selector:focus, .dataTable-input:focus { border-color: #00bcd4; outline: none; }
-
-/* Pagination style */
-.dataTable-pagination a {
-     color: #cccccc;
-     background-color: transparent;
-     border: 1px solid transparent;
-     padding: 0.3rem 0.6rem;
-     border-radius: 4px;
-     text-decoration: none;
-     transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
-}
-.dataTable-pagination li.active a {
-     background-color: #00bcd4;
-     color: #ffffff !important;
-     border-color: #00bcd4;
-     font-weight: bold;
-}
-.dataTable-pagination a:hover:not(.active) {
-     background-color: #383838;
-     color: #eeeeee;
-     border-color: #555;
-}
-.dataTable-pagination .pager a { padding: 0.3rem; } /* Adjusted padding for arrows */
-
-/* Information on the number of rows style */
-.dataTable-info { color: #cccccc; }
-
-/* --- Table Brightness/Emoji Styling --- */
-/* Target the brightness column cell (5th column) */
-#fire-table tbody td:nth-child(5) {
-    white-space: nowrap; /* Prevent wrapping in this cell */
-    /* Ensure content is centered if needed, though left-aligned by default */
-    /* text-align: center; */
+.dataTable-container::-webkit-scrollbar {
+    width: 6px;
 }
 
-/* Style for the span containing the emoji and data-brightness */
-.fire-emoji {
-    display: inline-block; /* Allows transform and other styles */
-    line-height: 1; /* Helps align emoji vertically */
-    margin-left: 5px; /* Space between number and emoji */
-    vertical-align: middle; /* Vertical alignment */
-    font-size: 0.9em; /* Default base size */
-    transition: font-size 0.3s ease; /* Smooth size changes */
-    transform-origin: center center; /* Origin point for transformations */
-    color: inherit; /* Inherit color from parent td by default */
-    /* animation: pulse 1.5s infinite ease-in-out; /* Example subtle animation */
+.dataTable-container::-webkit-scrollbar-track {
+    background: rgba(10, 22, 40, 0.3);
 }
 
-/* Classes added by the JS script based on data-brightness value */
-.fire-emoji.fire-size-medium { /* Brightness > 350 K */
-    font-size: 1.1em;
-}
-.fire-emoji.fire-size-high { /* Brightness > 380 K */
-    font-size: 1.3em;
-    /* Optional: Change color for high confidence fires */
-    /* color: orange; */
-}
-.fire-emoji.fire-size-veryhigh { /* Brightness > 400 K */
-    font-size: 1.5em;
-    /* Optional: Change color for very high confidence fires */
-    /* color: red; */
-    /* animation: pulse 1s infinite ease-in-out; /* More pronounced animation */
-}
-
-/* Example Keyframes for a pulse animation if enabled */
-/* @keyframes pulse {
-    0% { transform: scale(1); opacity: 1; }
-    50% { transform: scale(1.1); opacity: 0.8; }
-    100% { transform: scale(1); opacity: 1; }
-} */
-
-
-/* --- Map Section --- */
-#interactive-map-section {
-    grid-area: map; /* Position in 'map' grid area */
-    padding: 0; /* No internal padding */
-    border-radius: 4px; /* Rounded corners for the section */
-    background-color: transparent; /* Transparent background */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Shadow on the section */
-    overflow: hidden; /* Ensure iframe inside respects rounded corners */
-    /* Height is managed by grid-template-rows: 1fr in main */
-     display: flex; /* Use flex to ensure iframe fills container */
-     flex-direction: column;
-     position: relative; /* For legend positioning */
-}
-#interactive-map-section h2 { display: none; } /* Hide the map section title */
-
-/* Map Legend */
-.map-legend {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    background: rgba(40, 40, 40, 0.95);
-    padding: 1rem;
-    border-radius: 8px;
-    z-index: 1000;
-    max-width: 280px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
-    border: 1px solid #555;
-}
-
-.map-legend h4 {
-    margin: 0 0 0.8rem 0;
-    color: #00bcd4;
-    font-size: 1rem;
-    border-bottom: 1px solid #555;
-    padding-bottom: 0.5rem;
-}
-
-.legend-item {
-    display: flex;
-    align-items: center;
-    margin-bottom: 0.6rem;
-    font-size: 0.85rem;
-    color: #cccccc;
-}
-
-.legend-icon {
-    width: 20px;
-    height: 20px;
+.dataTable-container::-webkit-scrollbar-thumb {
+    background: var(--border-glow);
     border-radius: 3px;
-    margin-right: 0.6rem;
-    flex-shrink: 0;
-    border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
-.legend-divider {
-    height: 1px;
-    background: #555;
-    margin: 0.8rem 0;
+.dataTable-selector,
+.dataTable-input {
+    background: rgba(0, 217, 255, 0.05);
+    color: var(--cyber-blue);
+    border: 1px solid var(--border-glow);
+    padding: 0.4rem 0.6rem;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    font-family: 'Courier New', monospace;
 }
 
-.legend-note {
-    font-size: 0.8rem;
-    color: #aaaaaa;
-    line-height: 1.6;
+.dataTable-selector:focus,
+.dataTable-input:focus {
+    border-color: var(--cyber-blue);
+    box-shadow: 0 0 10px rgba(0, 217, 255, 0.2);
+    outline: none;
 }
 
-.legend-note strong {
-    color: #eeeeee;
+.dataTable-pagination a {
+    color: var(--cyber-blue);
+    background: transparent;
+    border: 1px solid var(--border-glow);
+    padding: 0.3rem 0.6rem;
+    border-radius: 4px;
+    margin: 0 0.2rem;
+    transition: all 0.2s ease;
 }
 
-#interactive-map-section iframe {
-     width: 100%; /* Iframe takes full width of parent section */
-     height: 100%; /* Iframe takes full height of parent section (managed by grid) */
-     border: 1px solid #444; /* Border around the iframe */
-     border-radius: 4px; /* Rounded corners on iframe */
-     box-shadow: none; /* Remove default iframe shadow if any */
-     display: block; /* Ensure no space below the iframe */
-     box-sizing: border-box; /* Ensure border is included in the size */
-     flex-grow: 1; /* Allow iframe to grow within its flex parent */
+.dataTable-pagination li.active a {
+    background: var(--cyber-blue);
+    color: var(--dark-navy);
+    border-color: var(--cyber-blue);
+    box-shadow: 0 0 10px rgba(0, 217, 255, 0.5);
+}
+
+.dataTable-pagination a:hover {
+    border-color: var(--cyber-blue);
+    box-shadow: 0 0 10px rgba(0, 217, 255, 0.3);
+}
+
+.dataTable-info {
+    color: rgba(0, 217, 255, 0.7);
+    font-size: 0.7rem;
+}
+
+/* --- Fire Emoji Styling --- */
+.fire-emoji {
+    display: inline-block;
+    margin-left: 5px;
+    vertical-align: middle;
+    font-size: 0.9em;
+    transition: all 0.3s ease;
+    filter: drop-shadow(0 0 3px rgba(255, 107, 107, 0.5));
+}
+
+.fire-emoji.fire-size-medium {
+    font-size: 1.1em;
+    filter: drop-shadow(0 0 5px rgba(255, 107, 107, 0.6));
+}
+
+.fire-emoji.fire-size-high {
+    font-size: 1.3em;
+    filter: drop-shadow(0 0 8px rgba(255, 107, 107, 0.8));
+    animation: fireGlow 2s ease-in-out infinite;
+}
+
+.fire-emoji.fire-size-veryhigh {
+    font-size: 1.5em;
+    filter: drop-shadow(0 0 10px rgba(255, 107, 107, 1));
+    animation: fireGlow 1s ease-in-out infinite;
+}
+
+@keyframes fireGlow {
+    0%, 100% { filter: drop-shadow(0 0 5px rgba(255, 107, 107, 0.8)); }
+    50% { filter: drop-shadow(0 0 15px rgba(255, 107, 107, 1)); }
 }
 
 
 /* --- Footer --- */
 footer {
-    background-color: #282828;
-    color: #aaaaaa;
+    background: linear-gradient(90deg, rgba(10, 22, 40, 0.95) 0%, rgba(13, 27, 42, 0.95) 100%);
+    backdrop-filter: blur(10px);
+    border-top: 1px solid var(--border-glow);
+    color: rgba(0, 217, 255, 0.6);
     text-align: center;
     padding: 0.8rem;
-    margin-top: 0.8rem;
-    font-size: 0.8rem;
-    flex-shrink: 0; /* Prevent footer from shrinking */
+    font-size: 0.7rem;
+    flex-shrink: 0;
+    z-index: 1000;
 }
 
-footer p { margin: 0; }
-footer a { color: #00bcd4; text-decoration: none; transition: color 0.3s ease; } /* Link style */
-footer a:hover { color: #4dd0e1; text-decoration: underline; } /* Link hover style */
+footer p {
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+footer a {
+    color: var(--cyber-blue);
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+footer a:hover {
+    color: var(--cyber-green);
+    text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
+}
 
 
 /* --- Responsive Adjustments --- */
-
-/* Tablet and smaller screens (Column Layout) */
 @media (max-width: 900px) {
+    header .header-content {
+        grid-template-columns: 1fr;
+        text-align: center;
+        gap: 1rem;
+    }
+
+    header .site-logo {
+        margin: 0 auto;
+    }
+
+    header .header-title-group {
+        text-align: center;
+    }
+
+    .auto-refresh-indicator {
+        position: static;
+        justify-content: center;
+        margin-top: 0.5rem;
+    }
+
     main {
-        display: flex; /* Disable Grid layout */
-        flex-direction: column; /* Stack children (sidebar, map) vertically */
-        gap: 0.8rem; /* Space between stacked elements */
-        padding: 0.6rem; /* Smaller general padding */
-        max-width: 100%; /* Use full available width */
-        height: auto; /* Allow main to extend beyond viewport height for scrolling */
-        min-height: auto; /* Allow shrinking */
-         /* Reset calculated height for flex stacking */
-        height: auto;
+        height: calc(100vh - 140px);
     }
 
-    /* Children of main (sidebar and map) take full width and reset Grid styles */
-    #left-sidebar,
-    #interactive-map-section {
-        grid-area: auto !important; /* Override grid positioning */
-        width: auto !important; /* Override fixed/flexible width */
-        max-width: none !important;
-        height: auto !important; /* Allow height to be determined by content/iframe height */
-        max-height: none !important; /* Remove desktop grid max-height constraint */
-        overflow-y: visible !important; /* Body handles vertical scrolling if needed */
-        padding: 0; /* Remove padding from the sidebar container itself */
-        background-color: transparent; /* Make background transparent */
-        box-shadow: none; /* Remove shadow from container */
-        /* The gap between sections inside sidebar is now handled by the section's parent (#left-sidebar flex gap) */
-    }
-
-    /* Styles for sections inside the sidebar (become individual cards, no internal scrolling) */
     #left-sidebar {
-        gap: 0.6rem; /* Reduced space between sections on mobile */
-         padding: 0; /* No padding on the sidebar itself, sections handle their internal padding */
-         background-color: transparent; /* Make background transparent */
-         box-shadow: none; /* Remove shadow */
+        width: 90%;
+        max-width: 400px;
+        left: 50%;
+        transform: translateX(-50%);
+        max-height: calc(100% - 1rem);
     }
-
-    #left-sidebar section {
-         flex-shrink: 0;
-         padding: 0; /* Section padding removed */
-         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Add shadow back to individual sections */
-         border-radius: 4px;
-         overflow: hidden;
-         background-color: #282828; /* Section background back for individual cards */
-         border: none; /* Remove the border added for desktop sections */
-    }
-    #left-sidebar section h2 {
-         font-size: 1.2rem; /* Reduced title size */
-         padding: 0.6rem 0.8rem; /* Reduced padding */
-         border-bottom: 1px solid #444;
-         border-radius: 3px 3px 0 0; /* Ensure only top corners are rounded */
-         background-color: #333; /* Header background */
-    }
-     #left-sidebar section.collapsed h2 {
-         border-bottom: none;
-         border-bottom-left-radius: 4px; /* Round bottom corners of header when collapsed */
-         border-bottom-right-radius: 4px;
-     }
-
-     /* Padding of collapsible content on mobile */
-     #left-sidebar section .section-content { padding: 0.8rem; }
-     #left-sidebar section.collapsed .section-content { padding-top: 0; padding-bottom: 0;}
-     /* Ensure content has rounded corners if section has background */
-     #left-sidebar section .section-content {
-          border-bottom-left-radius: 4px;
-          border-bottom-right-radius: 4px;
-          border-top: 1px solid #444; /* Border between header and content */
-     }
-     #left-sidebar section.collapsed .section-content { border-top: none; } /* No border when collapsed */
-
-
-    /* Date filters panel responsive adjustments */
-    #filter-section .filter-group {
-        flex-direction: column; /* Stack label and input */
-        align-items: flex-start; /* Align to the left */
-        gap: 0.2rem;
-    }
-    #filter-section label { min-width: auto; } /* Remove min-width */
-    #filter-section input[type="date"] { width: 100%; max-width: none;} /* Take full width */
-    #filter-section .filter-actions { justify-content: center; } /* Center buttons */
-
-    /* Charts section responsive adjustments */
-    #charts-section .charts-container { gap: 0.6rem; margin-top: 0; padding: 0;}
-    #charts-section .chart-item {
-        flex-basis: 45%; /* About 2 charts per row */
-        max-width: none;
-        padding: 0.5rem;
-        box-shadow: none;
-    }
-    #charts-section .chart-item figcaption { font-size: 0.7rem;}
-
-   /* Map section responsive adjustments */
-   #interactive-map-section { border-radius: 4px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);}
-   #interactive-map-section iframe {
-       height: 300px; /* **FIX:** Fixed height on mobile */
-       border-radius: 4px;
-       border: 1px solid #444;
-   }
-
-     /* Table section responsive adjustments */
-     /* Padding already handled by .section-content */
-     #fire-table { margin-top: 0.5rem; }
-     #fire-table th, #fire-table td { padding: 6px 8px; font-size: 0.8rem; }
-     #fire-table th { font-size: 0.7rem; }
-     /* simple-datatables controls on mobile */
-     .dataTable-top, .dataTable-bottom {
-          padding: 0.5rem;
-          font-size: 0.8rem;
-          flex-direction: column; /* Stack controls */
-          align-items: stretch; /* Stretch to full width */
-          gap: 0.3rem;
-     }
-      /* Ensure sub-groups within controls (search+select, info+pager) stack as well */
-     .dataTable-top > div, .dataTable-bottom > div { flex-direction: column; align-items: stretch; gap: 0.3rem;}
-     /* simple-datatables inputs take full width */
-     .dataTable-selector, .dataTable-input { padding: 0.3rem 0.4rem; font-size: 0.8rem; max-width: none; width: 100%; }
-
-
-   footer { padding: 0.6rem; font-size: 0.7rem; margin-top: 0.6rem; }
 }
 
-/* Téléphones plus petits (ajustements supplémentaires) */
 @media (max-width: 600px) {
-    header { padding: 0.6rem 0.8rem; margin-bottom: 0.6rem;}
-    header .site-logo { height: 40px; }
-    header .header-content { flex-direction: column; gap: 0.5rem;}
-    header h1 { font-size: 1.5rem; }
-    header p { font-size: 0.8rem; }
-    /* Auto-refresh indicator becomes static and centered */
-    .auto-refresh-indicator { position: static; text-align: center; margin-top: 0.5rem; padding: 0.2rem; background: none; box-shadow: none; color: #cccccc;}
-    .auto-refresh-indicator #refresh-countdown { color: #eeeeee;}
-
-
-    main { gap: 0.6rem; padding: 0.5rem; }
-    #left-sidebar { gap: 0.5rem;} /* Even less space between sections */
-
-    #left-sidebar section { padding: 0; }
-    #left-sidebar section h2 { font-size: 1.1rem; padding: 0.5rem 0.6rem; }
-     #left-sidebar section .section-content { padding: 0.6rem; }
-
-
-    #stats-section .metric { margin-bottom: 0.8rem; padding-bottom: 0.6rem; border-bottom: 1px solid #444; }
-    #stats-section .metric:last-child { border-bottom: none; }
-    #stats-section .metric .number { font-size: 2.4rem; }
-    #stats-section .metric .label { font-size: 0.8rem; }
-
-
-    #charts-section .charts-container { gap: 0.5rem; margin-top: 0; padding: 0;}
-    #charts-section .chart-item {
-        flex-basis: 100%; /* One chart per row */
-        max-width: none;
-        padding: 0.5rem;
-        box-shadow: none;
+    header {
+        padding: 0.8rem 1rem;
     }
-     #charts-section .chart-item figcaption { font-size: 0.65rem;}
 
+    header .header-title-group h1 {
+        font-size: 1.1rem;
+        letter-spacing: 2px;
+    }
 
-    #interactive-map-section iframe { height: 250px; } /* **FIX:** Even smaller fixed height */
+    header .header-title-group p {
+        font-size: 0.65rem;
+    }
 
-     #fire-table { margin-top: 0.5rem; }
-    #fire-table th, #fire-table td { padding: 4px 6px; font-size: 0.75rem; }
-    #fire-table th { font-size: 0.65rem; }
-     /* simple-datatables controls styles already adjusted in previous media query */
-     .dataTable-selector, .dataTable-input { font-size: 0.75rem; }
+    .auto-refresh-indicator {
+        font-size: 0.65rem;
+        padding: 0.4rem 0.8rem;
+        flex-direction: column;
+        gap: 0.3rem;
+    }
 
+    main {
+        height: calc(100vh - 160px);
+    }
 
-    footer { padding: 0.5rem; font-size: 0.7rem; margin-top: 0.5rem; }
+    #left-sidebar {
+        width: calc(100% - 1rem);
+        left: 0.5rem;
+        transform: none;
+        gap: 0.8rem;
+    }
+
+    #stats-section .section-content {
+        grid-template-columns: 1fr;
+    }
+
+    #stats-section .metric .number {
+        font-size: 1.6rem;
+    }
+
+    #charts-section .charts-container {
+        gap: 0.6rem;
+    }
+
+    footer {
+        font-size: 0.65rem;
+        padding: 0.6rem;
+    }
 }
 
-/* Adjustments for the smallest screens if necessary */
 @media (max-width: 400px) {
-   header .site-logo { height: 35px; }
-   header h1 { font-size: 1.3rem; }
-   header p { font-size: 0.75rem; }
-   #left-sidebar section h2 { font-size: 1rem; padding: 0.4rem 0.5rem;}
-    #stats-section .metric .number { font-size: 2rem; }
-    #stats-section .metric .label { font-size: 0.7rem; }
+    header .site-logo {
+        height: 35px;
+    }
 
-    #fire-table th, #fire-table td { font-size: 0.7rem; }
-    #fire-table th { font-size: 0.6rem; }
-     .dataTable-selector, .dataTable-input { font-size: 0.7rem; }
-}
+    header .header-title-group h1 {
+        font-size: 1rem;
+        letter-spacing: 1px;
+    }
 
-/* ========== ADVANCED FEATURES STYLES ========== */
+    #stats-section .metric .number {
+        font-size: 1.4rem;
+    }
 
-/* 1. Real-time Alert System */
-.fire-alert {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    background: linear-gradient(135deg, #ff6b6b 0%, #ff4444 100%);
-    color: white;
-    padding: 0;
-    border-radius: 8px;
-    box-shadow: 0 4px 20px rgba(255, 68, 68, 0.4);
-    z-index: 10000;
-    max-width: 400px;
-    opacity: 0;
-    transform: translateX(450px);
-    transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-}
-
-.fire-alert.show {
-    opacity: 1;
-    transform: translateX(0);
-}
-
-.fire-alert .alert-content {
-    display: flex;
-    align-items: center;
-    padding: 1rem;
-    gap: 1rem;
-}
-
-.fire-alert .alert-icon {
-    font-size: 2.5rem;
-    animation: pulse 1s infinite;
-}
-
-.fire-alert .alert-text {
-    flex: 1;
-}
-
-.fire-alert .alert-text strong {
-    display: block;
-    font-size: 1.1rem;
-    margin-bottom: 0.3rem;
-}
-
-.fire-alert .alert-text p {
-    margin: 0;
-    font-size: 0.9rem;
-    opacity: 0.9;
-}
-
-.fire-alert .alert-close {
-    background: rgba(255, 255, 255, 0.2);
-    border: none;
-    color: white;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    cursor: pointer;
-    font-size: 1.5rem;
-    line-height: 1;
-    transition: background 0.2s;
-}
-
-.fire-alert .alert-close:hover {
-    background: rgba(255, 255, 255, 0.3);
-}
-
-@keyframes pulse {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.1); }
-}
-
-/* Alert Controls */
-.alert-controls {
-    display: flex;
-    flex-direction: column;
-    gap: 0.8rem;
-}
-
-.alert-toggle {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    cursor: pointer;
-    user-select: none;
-}
-
-.alert-toggle input[type="checkbox"] {
-    width: 20px;
-    height: 20px;
-    cursor: pointer;
-}
-
-.alert-threshold {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.alert-threshold label {
-    font-size: 0.9rem;
-    color: #cccccc;
-}
-
-.alert-threshold input[type="number"] {
-    background-color: #333;
-    color: #eeeeee;
-    border: 1px solid #555;
-    padding: 0.4rem;
-    border-radius: 4px;
-    width: 80px;
-    font-size: 0.9rem;
-}
-
-.alert-status {
-    margin-top: 1rem;
-    padding: 0.5rem;
-    background-color: #333;
-    border-radius: 4px;
-    text-align: center;
-    font-size: 0.85rem;
-    color: #00bcd4;
-}
-
-/* 2. Weather Section */
-.weather-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0.8rem;
-}
-
-.weather-item {
-    display: flex;
-    flex-direction: column;
-    padding: 0.6rem;
-    background-color: #333;
-    border-radius: 4px;
-}
-
-.weather-label {
-    font-size: 0.75rem;
-    color: #aaaaaa;
-    text-transform: uppercase;
-    margin-bottom: 0.3rem;
-}
-
-.weather-value {
-    font-size: 1.2rem;
-    font-weight: 600;
-    color: #eeeeee;
-}
-
-.fire-risk-indicator {
-    grid-column: 1 / -1;
-    padding: 0.8rem;
-    border-radius: 4px;
-    text-align: center;
-    font-size: 1rem;
-    margin-top: 0.5rem;
-}
-
-.fire-risk-indicator.risk-low {
-    background-color: rgba(0, 255, 0, 0.15);
-    color: #00ff00;
-    border: 1px solid rgba(0, 255, 0, 0.3);
-}
-
-.fire-risk-indicator.risk-medium {
-    background-color: rgba(255, 204, 0, 0.15);
-    color: #ffcc00;
-    border: 1px solid rgba(255, 204, 0, 0.3);
-}
-
-.fire-risk-indicator.risk-high {
-    background-color: rgba(255, 0, 0, 0.15);
-    color: #ff0000;
-    border: 1px solid rgba(255, 0, 0, 0.3);
-}
-
-.weather-loading {
-    text-align: center;
-    color: #aaaaaa;
-    padding: 1rem;
-}
-
-/* 3. Prediction Section */
-.prediction-list {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-}
-
-.prediction-item {
-    display: grid;
-    grid-template-columns: auto 1fr auto auto;
-    gap: 0.8rem;
-    padding: 0.6rem;
-    background-color: #333;
-    border-radius: 4px;
-    align-items: center;
-    border-left: 3px solid transparent;
-    transition: all 0.2s;
-}
-
-.prediction-item:hover {
-    background-color: #3a3a3a;
-    transform: translateX(5px);
-}
-
-.prediction-item.risk-high {
-    border-left-color: #ff0000;
-}
-
-.prediction-item.risk-medium {
-    border-left-color: #ffcc00;
-}
-
-.prediction-item.risk-low {
-    border-left-color: #00ffff;
-}
-
-.pred-rank {
-    font-weight: 700;
-    font-size: 1.1rem;
-    color: #00bcd4;
-}
-
-.pred-location {
-    font-size: 0.85rem;
-    color: #cccccc;
-}
-
-.pred-fires {
-    font-size: 0.8rem;
-    color: #aaaaaa;
-}
-
-.pred-risk {
-    font-size: 0.8rem;
-    font-weight: 600;
-    padding: 0.2rem 0.5rem;
-    background-color: #282828;
-    border-radius: 3px;
-}
-
-.prediction-loading {
-    text-align: center;
-    color: #aaaaaa;
-    padding: 1rem;
-}
-
-/* 4. Historical Section */
-.historical-comparison {
-    display: flex;
-    flex-direction: column;
-    gap: 0.8rem;
-}
-
-.comparison-item {
-    display: flex;
-    justify-content: space-between;
-    padding: 0.6rem;
-    background-color: #333;
-    border-radius: 4px;
-}
-
-.comp-label {
-    font-size: 0.85rem;
-    color: #aaaaaa;
-}
-
-.comp-value {
-    font-size: 1rem;
-    font-weight: 600;
-    color: #eeeeee;
-}
-
-.comparison-trend {
-    padding: 0.8rem;
-    border-radius: 4px;
-    text-align: center;
-    font-size: 1.1rem;
-    margin-top: 0.5rem;
-}
-
-.comparison-trend.trend-up {
-    background-color: rgba(255, 0, 0, 0.15);
-    color: #ff6b6b;
-    border: 1px solid rgba(255, 0, 0, 0.3);
-}
-
-.comparison-trend.trend-down {
-    background-color: rgba(0, 255, 0, 0.15);
-    color: #00ff00;
-    border: 1px solid rgba(0, 255, 0, 0.3);
-}
-
-.data-count {
-    text-align: center;
-    font-size: 0.75rem;
-    color: #888;
-    margin-top: 0.5rem;
-}
-
-.historical-loading {
-    text-align: center;
-    color: #aaaaaa;
-    padding: 1rem;
-}
-
-.history-btn {
-    background-color: #555;
-    color: white;
-    border: none;
-    padding: 0.5rem 1rem;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 0.85rem;
-    margin-top: 0.5rem;
-    width: 100%;
-    transition: background-color 0.2s;
-}
-
-.history-btn:hover {
-    background-color: #666;
-}
-
-/* 5. Zones of Interest */
-.zones-list {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    margin-bottom: 1rem;
-}
-
-.zone-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0.6rem;
-    background-color: #333;
-    border-radius: 4px;
-    border-left: 3px solid #00bcd4;
-    transition: background-color 0.2s;
-}
-
-.zone-item:hover {
-    background-color: #3a3a3a;
-}
-
-.zone-name {
-    font-size: 0.9rem;
-    color: #eeeeee;
-}
-
-.zone-delete {
-    background: none;
-    border: none;
-    color: #ff6b6b;
-    cursor: pointer;
-    font-size: 1.2rem;
-    padding: 0.2rem 0.5rem;
-    transition: color 0.2s;
-}
-
-.zone-delete:hover {
-    color: #ff4444;
-}
-
-.no-zones {
-    text-align: center;
-    color: #aaaaaa;
-    padding: 1rem;
-    font-style: italic;
-}
-
-.zone-controls {
-    display: flex;
-    gap: 0.5rem;
-    margin-top: 0.8rem;
-}
-
-.zone-btn {
-    flex: 1;
-    background-color: #00bcd4;
-    color: white;
-    border: none;
-    padding: 0.5rem;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 0.85rem;
-    transition: background-color 0.2s;
-}
-
-.zone-btn:hover {
-    background-color: #0097a7;
-}
-
-.zones-loading {
-    text-align: center;
-    color: #aaaaaa;
-    padding: 1rem;
+    #left-sidebar section h2 {
+        font-size: 0.75rem;
+        padding: 0.6rem 0.8rem;
+    }
 }
