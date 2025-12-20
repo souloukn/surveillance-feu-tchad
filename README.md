@@ -1,178 +1,201 @@
-# 🔥 Système de Surveillance des Feux de Brousse - Tchad
+# 🔥 Surveillance Feu Tchad - Dashboard Cyberpunk
 
-Application avancée de détection et surveillance des feux de brousse au Tchad utilisant les données NASA FIRMS en temps réel.
+Tableau de bord en temps réel pour la surveillance des feux de brousse au Tchad avec interface cyberpunk.
 
-## 🌟 Fonctionnalités
+## 🚀 Déploiement Live
 
-### 📊 Dashboard Interactif
-- **Carte interactive** avec marqueurs animés en forme de flamme
-- **Visualisation en temps réel** des feux actifs
-- **Interface ultra-moderne** style Qoder avec glassmorphism
+**Dashboard:** [https://souloukn.github.io/surveillance-feu-tchad/dashboard.html](https://souloukn.github.io/surveillance-feu-tchad/dashboard.html)
 
-### ☁️ Intégration Météo
-- **Données météo en temps réel** (OpenWeatherMap API)
-- **4 métriques clés** : Température, Humidité, Vent, Pression
-- **Calcul du risque d'incendie** basé sur les conditions météo
+## ✨ Fonctionnalités
 
-### 🗺️ Limites Administratives
-- **Provinces du Tchad** (23 régions)
-- **Départements** (55 divisions)
-- **Communes** (348 localités)
-- **Données GeoJSON** officielles
+- 🎨 **Interface Cyberpunk** - Design neon cyan/pink/purple avec effets glassmorphism
+- 🔢 **Compteurs Animés** - Animation progressive avec son synchronisé (Web Audio API)
+- 📊 **Graphiques** - Distribution de confiance (doughnut) et détections par satellite (barres)
+- 🔮 **Prédictions** - Tendance 24h et niveau de risque de propagation
+- 🗺️ **Carte Interactive** - Marqueurs de feu avec popups cyberpunk améliorés
+- 📱 **Responsive** - Design adaptatif mobile avec sidebar toggle
+- 🇫🇷 **Interface Française** - 100% en français
 
-### 📈 Graphiques et Analyses
-- **Graphiques animés** : Luminosité, Confiance, Risque
-- **Barres de progression** avec gradients dynamiques
-- **Graphique circulaire SVG** pour le score de risque global
+## 🗺️ Problème Résolu: Carte avec Feux
 
-### 🎯 Système d'Alerte
-- **5 niveaux de risque** : Critique, Très Élevé, Élevé, Modéré, Faible
-- **Score intelligent** combinant météo et données satellitaires
-- **Popups détaillés** avec scroll pour chaque feu
+### Si la carte n'affiche pas les feux:
 
-## 🚀 Installation
+1. **Régénérer la carte avec les données de démo:**
+   ```bash
+   python generate_demo_data.py
+   python generate_map_from_demo.py
+   ```
 
-### Prérequis
-- Python 3.9+
-- pip
+2. **Recharger la page** - La carte `firms_tcd_map.html` sera mise à jour
 
-### Étapes d'installation
+### Structure de la Carte:
+- **Marqueurs colorés** par niveau de confiance:
+  - 🔴 Rouge: Haute confiance (>79)
+  - 🟠 Orange: Confiance nominale (30-79)
+  - 🟢 Vert: Basse confiance (<30)
+- **Clustering** automatique pour performance
+- **Popups cyberpunk** avec glassmorphism et animations
+- **Fonds de carte multiples**: Satellite, OpenStreetMap, Dark Mode
 
-1. **Cloner le repository**
+## ☁️ Options Météo (Optionnel)
+
+### Activation de la Météo:
+
+1. **Obtenir une clé API gratuite:**
+   - Visitez [OpenWeatherMap](https://openweathermap.org/api)
+   - Créez un compte gratuit
+   - Copiez votre clé API
+
+2. **Configurer:**
+   ```python
+   # Dans weather_config.py
+   OPENWEATHER_API_KEY = "VOTRE_CLE_API_ICI"
+   WEATHER_ENABLED = True
+   ```
+
+3. **Régénérer les données:**
+   ```bash
+   python generate_demo_data.py
+   ```
+
+### Fonctionnalités Météo:
+- 🌡️ Température en temps réel
+- 💧 Humidité
+- 💨 Vitesse du vent
+- 🌧️ Précipitations
+- ⚠️ Alertes conditions dangereuses (temp élevée, humidité basse)
+
+## 🎵 Son du Compteur
+
+### Deux Options:
+
+**Option 1: Web Audio API (Par Défaut)**
+- Beep synthétique (800Hz, 50ms)
+- Fonctionne sans fichier
+- Activé automatiquement
+
+**Option 2: Fichier Audio Personnalisé**
 ```bash
+# Ajoutez un fichier audio dans le dossier:
+son.mp3  # ou son.wav, son.ogg
+```
+
+## 📦 Installation Locale
+
+```bash
+# Cloner le repository
 git clone https://github.com/souloukn/surveillance-feu-tchad.git
 cd surveillance-feu-tchad
-```
 
-2. **Installer les dépendances**
-```bash
+# Installer les dépendances
 pip install -r requirements.txt
+
+# Générer les données de démo
+python generate_demo_data.py
+
+# Générer la carte
+python generate_map_from_demo.py
+
+# Ouvrir le dashboard
+# Double-cliquez sur dashboard.html
 ```
 
-3. **Configurer l'API OpenWeatherMap**
-- Obtenir une clé API gratuite sur [OpenWeatherMap](https://openweathermap.org/api)
-- La clé est déjà configurée dans `generate_map_animated.py` (ligne 156)
+## 🔄 Mise à Jour des Données
 
-## 💻 Utilisation
-
-### Générer des données de démonstration
+### Avec Données de Démo:
 ```bash
 python generate_demo_data.py
+python generate_map_from_demo.py
 ```
 
-### Générer la carte interactive
+### Avec API FIRMS (Données Réelles):
 ```bash
-python generate_map_animated.py
+# Éditer generate_firms_dashboard.py
+FIRMS_API_KEY = "VOTRE_CLE_FIRMS"
+
+# Générer
+python generate_firms_dashboard.py
 ```
 
-### Ouvrir le dashboard
-```bash
-start firms_tcd_map.html
-# ou
-start dashboard.html
-```
-
-## 📁 Structure du Projet
+## 🛠️ Structure du Projet
 
 ```
 surveillance-feu-tchad/
-├── generate_map_animated.py      # Script principal de génération de carte
-├── generate_demo_data.py         # Générateur de données de test
-├── popup_template.py             # Template des popups modernes
-├── convert_shp_to_geojson.py    # Conversion SHP → GeoJSON
-├── dashboard.html                # Dashboard HTML principal
-├── fire_data.js                  # Logique JavaScript
-├── style.css                     # Styles CSS modernes
-├── fire_data.json               # Données des feux (généré)
-├── firms_tcd_map.html           # Carte interactive (généré)
-├── chad_provinces.geojson       # Limites des provinces
-├── chad_departments.geojson     # Limites des départements
-├── chad_communes.geojson        # Limites des communes
-└── charts/                      # Graphiques matplotlib
+├── dashboard.html          # Dashboard principal avec compteurs animés
+├── style.css              # Styles cyberpunk
+├── fire_data.js           # Données et scripts du dashboard
+├── fire_data.json         # Données JSON
+├── firms_tcd_map.html     # Carte Folium interactive
+├── popup_template.py      # Templates popups cyberpunk
+├── generate_demo_data.py  # Générateur données de démo
+├── generate_map_from_demo.py  # Générateur carte depuis démo
+├── generate_firms_dashboard.py  # Générateur avec API FIRMS
+├── weather_config.py      # Configuration météo (optionnel)
+└── requirements.txt       # Dépendances Python
 ```
 
-## 🎨 Captures d'écran
+## 🎨 Personnalisation
 
-### Carte Interactive
-- Marqueurs animés en forme de flamme 🔥
-- Design moderne avec effets glassmorphism
-- Navigation fluide et responsive
-
-### Popup Détaillé
-- Header avec niveau d'intensité
-- Score de risque global
-- Données météo en temps réel
-- Graphiques animés
-- Localisation administrative précise
-
-## 🔧 Technologies Utilisées
-
-- **Python** : Backend et traitement de données
-- **Folium** : Cartographie interactive
-- **OpenWeatherMap API** : Données météo
-- **NASA FIRMS** : Données satellitaires sur les feux
-- **GeoPandas** : Traitement des données géospatiales
-- **Shapely** : Opérations géométriques
-- **Scikit-learn** : Clustering DBSCAN (optionnel)
-- **HTML/CSS/JavaScript** : Interface utilisateur
-
-## 📊 Sources de Données
-
-- **NASA FIRMS** : Fire Information for Resource Management System
-- **OpenWeatherMap** : Données météorologiques
-- **OpenStreetMap** : Limites administratives
-
-## 🎯 Algorithme de Calcul du Risque
-
-Le score de risque (0-100) est calculé selon :
-
-```python
-Score = Température + Humidité + Vent + Luminosité + Confiance
-
-Facteurs :
-- Température >40°C    → +35 points
-- Humidité <20%        → +30 points
-- Vent >15 m/s         → +25 points
-- Luminosité >400K     → +10 points
-- Confiance >90%       → +5 points
+### Couleurs:
+```css
+/* Dans style.css */
+:root {
+    --neon-cyan: #00ffff;
+    --neon-pink: #ff00ff;
+    --neon-purple: #9d00ff;
+}
 ```
 
-**Niveaux** :
-- 🔴 **CRITIQUE** (≥80)
-- 🟠 **TRÈS ÉLEVÉ** (≥60)
-- 🟡 **ÉLEVÉ** (≥40)
-- 🟢 **MODÉRÉ** (≥20)
-- ✅ **FAIBLE** (<20)
+### Animation du Compteur:
+```javascript
+// Dans dashboard.html
+animateCounter(element, targetValue, 2500, true);
+//                                    ↑     ↑
+//                              durée(ms)  son activé
+```
 
-## 🤝 Contribution
+## 📊 Données
 
-Les contributions sont les bienvenues ! N'hésitez pas à :
-1. Fork le projet
-2. Créer une branche (`git checkout -b feature/amelioration`)
-3. Commit vos changements (`git commit -m 'Ajout fonctionnalité'`)
-4. Push vers la branche (`git push origin feature/amelioration`)
-5. Ouvrir une Pull Request
+**Source:** NASA FIRMS (Fire Information for Resource Management System)
+- **Satellites:** MODIS (Terra & Aqua)
+- **Fréquence:** Temps quasi-réel
+- **Couverture:** Tchad (TCD)
+
+## 🐛 Dépannage
+
+### La carte est vide:
+```bash
+python generate_map_from_demo.py
+```
+
+### Le son ne fonctionne pas:
+- Normal: Les navigateurs bloquent l'autoplay audio
+- Cliquez n'importe où sur la page pour activer
+- Web Audio API génère automatiquement un beep
+
+### Les graphiques ne s'affichent pas:
+- Vérifiez la console: F12 → Console
+- Rechargez la page (Ctrl+F5)
+- Vérifiez que Chart.js est chargé
 
 ## 📝 Licence
 
-Ce projet est sous licence MIT. Voir le fichier `license.txt` pour plus de détails.
+MIT License - Libre d'utilisation
 
-## 👤 Auteur
+## 🤝 Contribution
 
-**souloukn**
-- GitHub: [@souloukn](https://github.com/souloukn)
+Les contributions sont les bienvenues!
 
-## 🙏 Remerciements
+1. Fork le projet
+2. Créez une branche (`git checkout -b feature/amelioration`)
+3. Commit (`git commit -m '✨ Nouvelle fonctionnalité'`)
+4. Push (`git push origin feature/amelioration`)
+5. Ouvrez une Pull Request
 
-- NASA FIRMS pour les données satellitaires
-- OpenWeatherMap pour les données météo
-- OpenStreetMap pour les données géographiques
-- La communauté open-source Python
+## 📧 Contact
 
-## 📞 Support
-
-Pour toute question ou problème, ouvrez une issue sur GitHub.
+Pour questions ou support: [GitHub Issues](https://github.com/souloukn/surveillance-feu-tchad/issues)
 
 ---
 
-**Développé avec ❤️ pour la surveillance environnementale au Tchad**
+**Développé avec ❤️ pour la surveillance des feux de brousse au Tchad**
