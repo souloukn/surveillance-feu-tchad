@@ -11,6 +11,7 @@ import json
 from popup_template import create_cyberpunk_popup
 from datetime import datetime, timedelta
 import sys
+import os
 
 print("=" * 70)
 print("🔥 SURVEILLANCE FEU TCHAD - MULTI-SOURCE API")
@@ -19,11 +20,24 @@ print(f"📅 {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
 print("=" * 70)
 
 # ==================== CONFIGURATION ====================
-FIRMS_API_KEY = "bf5e35a4b23a40fdf6b1ce6ec90b8312"
-
-# FILTRES TEMPORELS
-DAYS_TO_FETCH = 10  # Maximum pour Near Real-Time (NRT)
-
+# Essayer de charger filters_config.json si existe
+if os.path.exists('filters_config.json'):
+    print("\n📁 Configuration chargée depuis filters_config.json")
+    with open('filters_config.json', 'r') as f:
+        config = json.load(f)
+    FIRMS_API_KEY = config.get('api_key', 'bf5e35a4b23a40fdf6b1ce6ec90b8312')
+    DAYS_TO_FETCH = config.get('days', 10)
+    FILTER_BY_SPECIFIC_REGION = config.get('use_regions', False)
+    SELECTED_REGIONS = config.get('regions', ['Lac', 'Mayo-Kebbi'])
+    MIN_CONFIDENCE = config.get('min_confidence', 30)
+    MIN_BRIGHTNESS = config.get('min_brightness', 300)
+else:
+    FIRMS_API_KEY = "bf5e35a4b23a40fdf6b1ce6ec90b8312"
+    DAYS_TO_FETCH = 10
+    FILTER_BY_SPECIFIC_REGION = False
+    SELECTED_REGIONS = ['Lac', 'Mayo-Kebbi']
+    MIN_CONFIDENCE = 30
+    MIN_BRIGHTNESS = 300
 # FILTRES GÉOGRAPHIQUES
 # Zone complète du Tchad
 CHAD_BOUNDS = {
