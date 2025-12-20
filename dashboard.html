@@ -5,16 +5,50 @@
     <title>Tableau de Bord - Feux de Brousses (Tchad)</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <!-- 
+    ═══════════════════════════════════════════════════════════════
+    🔥 CYBER SURVEILLANCE CENTER - FIRE MONITORING DASHBOARD
+    ═══════════════════════════════════════════════════════════════
+    Design: Dark cyberpunk theme inspired by Kaspersky Threat Map
+    Features:
+    - Immersive full-screen map with glassmorphism overlays
+    - Real-time animated counters with glow effects
+    - Neon accents (orange/red for fires, green for status)
+    - Modern typography: Inter, Orbitron
+    - Pulse animations on fire markers
+    - Scanline effects for cyber atmosphere
+    
+    Optional CSS Classes Available:
+    - .cyber-bracket: Add corner brackets to elements
+    - .fire-marker-pulse: Pulse animation for fire points
+    - .status-badge: Colored status indicators
+    - .neon-text: Glowing neon text effect
+    - .scan-effect: Animated scanline overlay
+    - .cyber-grid: Grid background overlay
+    ═══════════════════════════════════════════════════════════════
+    -->
+
     <!-- Styles CSS -->
     <!-- ASSUREZ-VOUS QUE LE CHEMIN VERS style.css EST CORRECT -->
     <link rel="stylesheet" href="style.css">
     <!-- Style pour simple-datatables (chargé depuis un CDN) -->
     <!-- Assurez-vous d'utiliser la version la plus récente si nécessaire -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css">
+    
+    <!-- Chart.js for data visualization -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 
     <!-- Optionnel: Icône de page (favicon) -->
     <!-- ASSUREZ-VOUS QUE LE CHEMIN VERS favicon.ico EST CORRECT -->
     <!-- <link rel="icon" href="favicon.ico" type="image/x-icon"> -->
+    
+    <!-- Audio element for counter sound -->
+    <audio id="counter-sound" preload="auto">
+        <source src="son.mp3" type="audio/mpeg">
+        <source src="son.wav" type="audio/wav">
+        <source src="son.ogg" type="audio/ogg">
+        Your browser does not support the audio element.
+    </audio>
 </head>
 <body>
 
@@ -37,76 +71,100 @@
     </header>
 
     <!--
-    SECTION PRINCIPALE : Full-screen map with bottom overlay panels
+    SECTION PRINCIPALE : Kaspersky-style layout
+    - Left sidebar: Statistics panel
+    - Center: Full-screen map
+    - Top: Title overlay
+    - Bottom: Status bar
     -->
     <main>
+        <!-- Mobile Sidebar Toggle -->
+        <button id="sidebar-toggle" class="mobile-only" aria-label="Toggle sidebar">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        
+        <!-- Left Statistics Sidebar -->
+        <aside id="left-sidebar">
+            <div class="sidebar-section">
+                <h3>STATISTIQUES TEMPS RÉEL</h3>
+                <div class="stat-item">
+                    <div class="stat-label">DÉTECTIONS TOTALES</div>
+                    <div class="stat-value" id="total-fires">---</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label">MENACES ACTIVES</div>
+                    <div class="stat-value" id="active-fires">---</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label">SATELLITES</div>
+                    <div class="stat-value" id="satellite-count">---</div>
+                </div>
+            </div>
+            
+            <div class="sidebar-section">
+                <h3>TOP LOCALISATIONS</h3>
+                <div class="ranking-list" id="ranking-list">
+                    <div class="ranking-item">Chargement...</div>
+                </div>
+            </div>
+            
+            <div class="sidebar-section">
+                <h3>GRAPHIQUES</h3>
+                <div class="chart-container">
+                    <canvas id="confidence-chart"></canvas>
+                </div>
+                <div class="chart-container" style="margin-top: 1rem;">
+                    <canvas id="satellite-chart"></canvas>
+                </div>
+            </div>
+            
+            <div class="sidebar-section">
+                <h3>PRÉDICTIONS</h3>
+                <div class="prediction-item">
+                    <div class="prediction-label">TENDANCE 24H</div>
+                    <div class="prediction-value" id="trend-24h">---</div>
+                </div>
+                <div class="prediction-item">
+                    <div class="prediction-label">RISQUE PROPAGATION</div>
+                    <div class="prediction-value" id="spread-risk">---</div>
+                </div>
+            </div>
+        </aside>
+        
         <!-- Full Screen Map Background -->
         <section id="interactive-map-section">
             <iframe src="firms_tcd_map.html" title="Carte interactive des feux de brousse au Tchad basée sur les données NASA FIRMS">
                 Votre navigateur ne supporte pas les iframes, ou la carte n'a pas pu être chargée.
             </iframe>
             
-            <!-- Top Info Panel (overlay on map) -->
-            <div id="map-info-panel">
-                <h3>🔥 LIVE FIRE THREATS WORLDWIDE - CHAD</h3>
-                <p>Les emplacements d'adresse IP des serveurs utilisés pour contrôler les ordinateurs infectés par des logiciels malveillants</p>
-                <div class="legend-items">
-                    <div class="legend-item">
-                        <span class="legend-dot" style="background: #ff6b6b;"></span>
-                        <span>Emplacements avec l'activité de feu la plus intense</span>
-                    </div>
-                    <div class="legend-item">
-                        <span class="legend-dot" style="background: #00d9ff;"></span>
-                        <span>Serveurs de détection de feux satellites</span>
-                    </div>
-                </div>
+            <!-- Top Title Overlay -->
+            <div id="map-title-overlay">
+                <h1>🔥 MENACES FEU EN DIRECT - TCHAD</h1>
+                <p>Surveillance en temps réel des feux de brousse par détection satellite NASA FIRMS</p>
             </div>
         </section>
         
-        <!-- Bottom Data Panels -->
-        <div id="bottom-panels">
-            <!-- Left Table: Top Fire Locations -->
-            <section id="top-locations-panel" class="bottom-panel">
-                <h2>🔥 TOP 10 WORST FIRE LOCATIONS</h2>
-                <div class="section-content">
-                    <table class="data-table">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Province</th>
-                                <th>Détections</th>
-                            </tr>
-                        </thead>
-                        <tbody id="top-locations-tbody">
-                            <tr><td colspan="3" style="text-align: center;">Chargement...</td></tr>
-                        </tbody>
-                    </table>
-                </div>
-            </section>
-            
-            <!-- Right Table: Top Satellites Statistics -->
-            <section id="top-satellites-panel" class="bottom-panel">
-                <h2>📡 TOP 10 SATELLITES DÉTECTIONS</h2>
-                <div class="section-content">
-                    <table class="data-table">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Satellite</th>
-                                <th>Détections</th>
-                            </tr>
-                        </thead>
-                        <tbody id="top-satellites-tbody">
-                            <tr><td colspan="3" style="text-align: center;">Chargement...</td></tr>
-                        </tbody>
-                    </table>
-                </div>
-            </section>
+        <!-- Bottom Status Bar -->
+        <div id="status-bar">
+            <div class="status-item">
+                <span class="status-label">ÉTAT EN DIRECT:</span>
+                <span class="status-value live-indicator">ACTIF</span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">DERNIÈRE MAJ:</span>
+                <span class="status-value" id="last-update">---</span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">PROCHAINE MAJ:</span>
+                <span class="status-value" id="refresh-countdown-status">---</span>
+            </div>
         </div>
     </main>
 
     <footer>
-        <p>© 2025 NEXUS GEO-ÉLEC | POWERED BY <a href="https://firms.modaps.eosdis.nasa.gov/" target="_blank" rel="noopener noreferrer">NASA FIRMS</a> | CYBER THREAT INTELLIGENCE</p>
+        <p>© 2025 NEXUS GEO-ÉLEC | PROPULSÉ PAR <a href="https://firms.modaps.eosdis.nasa.gov/" target="_blank" rel="noopener noreferrer">NASA FIRMS</a> | CYBER INTELLIGENCE DES MENACES</p>
     </footer>
 
     <!-- Real-Time Clock Script -->
@@ -126,59 +184,416 @@
         setInterval(updateClock, 1000);
     </script>
 
-    <!-- Bottom Tables Population Script -->
+    <!-- Scripts JavaScript -->
+    <!-- Load fire_data.js FIRST so dashboardData is defined -->
+    <script src="fire_data.js"></script>
+    
+    <!-- Simple-datatables library -->
+    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
+    
+    <!-- Sidebar & Status Bar Population Script - runs immediately after fire_data.js -->
     <script>
-        // Wait for fire_data.js to load
-        document.addEventListener('DOMContentLoaded', function() {
-            // Check if dashboardData exists
-            if (typeof dashboardData !== 'undefined') {
-                // Populate Top Locations Table
-                const locationCounts = {};
-                dashboardData.records.forEach(record => {
-                    const location = record[2].toFixed(2) + ', ' + record[3].toFixed(2);
-                    locationCounts[location] = (locationCounts[location] || 0) + 1;
-                });
-                
-                const sortedLocations = Object.entries(locationCounts)
-                    .sort((a, b) => b[1] - a[1])
-                    .slice(0, 10);
-                
-                const locationsHTML = sortedLocations.map((item, index) => 
-                    `<tr>
-                        <td>${index + 1}</td>
-                        <td>${item[0]}</td>
-                        <td>${item[1]}</td>
-                    </tr>`
-                ).join('');
-                
-                document.getElementById('top-locations-tbody').innerHTML = locationsHTML;
-                
-                // Populate Top Satellites Table
-                const satelliteCounts = dashboardData.stats.satellite_counts || {};
-                const sortedSatellites = Object.entries(satelliteCounts)
-                    .sort((a, b) => b[1] - a[1])
-                    .slice(0, 10);
-                
-                const satellitesHTML = sortedSatellites.map((item, index) => 
-                    `<tr>
-                        <td>${index + 1}</td>
-                        <td>${item[0]}</td>
-                        <td>${item[1]}</td>
-                    </tr>`
-                ).join('');
-                
-                document.getElementById('top-satellites-tbody').innerHTML = satellitesHTML;
+        // Mobile Sidebar Toggle
+        const sidebarToggle = document.getElementById('sidebar-toggle');
+        const sidebar = document.getElementById('left-sidebar');
+        
+        if (sidebarToggle) {
+            sidebarToggle.addEventListener('click', function() {
+                sidebar.classList.toggle('mobile-open');
+                this.classList.toggle('active');
+            });
+        }
+        
+        // Progressive Counter Animation with Sound
+        function animateCounter(element, targetValue, duration = 2000, playSound = true) {
+            const startValue = 0;
+            const startTime = performance.now();
+            const sound = document.getElementById('counter-sound');
+            
+            // Create fallback beep sound using Web Audio API
+            let audioContext = null;
+            let useWebAudio = false;
+            
+            if (playSound && !sound) {
+                try {
+                    audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                    useWebAudio = true;
+                } catch(e) {
+                    console.log('Web Audio API not supported');
+                }
             }
+            
+            // Function to play beep sound
+            function playBeep() {
+                if (useWebAudio && audioContext) {
+                    const oscillator = audioContext.createOscillator();
+                    const gainNode = audioContext.createGain();
+                    
+                    oscillator.connect(gainNode);
+                    gainNode.connect(audioContext.destination);
+                    
+                    oscillator.frequency.value = 800; // Frequency in Hz
+                    gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+                    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.05);
+                    
+                    oscillator.start(audioContext.currentTime);
+                    oscillator.stop(audioContext.currentTime + 0.05);
+                }
+            }
+            
+            // Calculate sound interval based on target value
+            const soundInterval = duration / Math.min(targetValue, 50); // Limit to max 50 sounds
+            let lastSoundTime = 0;
+            let soundEnabled = playSound;
+            
+            // Test if sound can play (browser autoplay policy)
+            if (playSound && sound) {
+                sound.volume = 0.3;
+                sound.play().then(() => {
+                    sound.pause();
+                    sound.currentTime = 0;
+                    console.log('✅ Sound enabled for counter animation');
+                }).catch(e => {
+                    console.log('⚠️ Sound file not available, using Web Audio beep');
+                    if (!useWebAudio) {
+                        try {
+                            audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                            useWebAudio = true;
+                        } catch(err) {
+                            soundEnabled = false;
+                        }
+                    }
+                });
+            }
+            
+            function updateCounter(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                
+                // Easing function for smooth animation (easeOutCubic)
+                const easeProgress = 1 - Math.pow(1 - progress, 3);
+                const currentValue = Math.floor(startValue + (targetValue - startValue) * easeProgress);
+                
+                // Update display
+                element.textContent = currentValue.toLocaleString();
+                
+                // Play sound at intervals
+                if (soundEnabled && (currentTime - lastSoundTime) >= soundInterval && currentValue < targetValue) {
+                    try {
+                        if (sound) {
+                            // Try to use audio file
+                            const soundClone = sound.cloneNode();
+                            soundClone.volume = 0.3;
+                            soundClone.play().catch(e => {
+                                // Fall back to Web Audio beep
+                                playBeep();
+                            });
+                        } else {
+                            // Use Web Audio beep
+                            playBeep();
+                        }
+                        lastSoundTime = currentTime;
+                    } catch (e) {
+                        soundEnabled = false;
+                    }
+                }
+                
+                // Continue animation
+                if (progress < 1) {
+                    requestAnimationFrame(updateCounter);
+                } else {
+                    element.textContent = targetValue.toLocaleString();
+                    // Add final pulse effect
+                    element.style.transform = 'scale(1.2)';
+                    setTimeout(() => {
+                        element.style.transform = 'scale(1)';
+                    }, 200);
+                }
+            }
+            
+            // Add transition for smooth scaling
+            element.style.transition = 'transform 0.2s ease';
+            requestAnimationFrame(updateCounter);
+        }
+        
+        // Function to populate dashboard
+        function populateDashboard() {
+            console.log('Attempting to populate dashboard...');
+            console.log('dashboardData exists?', typeof dashboardData !== 'undefined');
+            
+            // Check if dashboardData exists
+            if (typeof dashboardData !== 'undefined' && dashboardData.stats) {
+                console.log('Dashboard data loaded:', dashboardData);
+                
+                // Populate Statistics from stats object
+                const totalFires = dashboardData.stats.total_detections || 0;
+                
+                // Animate the total fires counter with sound
+                const totalFiresElement = document.getElementById('total-fires');
+                const activeFiresElement = document.getElementById('active-fires');
+                
+                if (totalFiresElement) {
+                    animateCounter(totalFiresElement, totalFires, 2500, true);
+                }
+                
+                if (activeFiresElement) {
+                    // Delay the active fires animation slightly
+                    setTimeout(() => {
+                        animateCounter(activeFiresElement, totalFires, 2000, false);
+                    }, 500);
+                }
+                
+                // Count unique satellites from satellite_counts
+                const satelliteCount = Object.keys(dashboardData.stats.satellite_counts || {}).length;
+                const satelliteElement = document.getElementById('satellite-count');
+                if (satelliteElement) {
+                    setTimeout(() => {
+                        animateCounter(satelliteElement, satelliteCount, 1500, false);
+                    }, 1000);
+                }
+                
+                // Populate Top Locations Ranking from detailList
+                if (dashboardData.detailList && dashboardData.detailList.length > 0) {
+                    const locationCounts = {};
+                    
+                    dashboardData.detailList.forEach(record => {
+                        const location = record.location; // Already formatted as "lat, lon"
+                        locationCounts[location] = (locationCounts[location] || 0) + 1;
+                    });
+                    
+                    const sortedLocations = Object.entries(locationCounts)
+                        .sort((a, b) => b[1] - a[1])
+                        .slice(0, 10);
+                    
+                    const rankingHTML = sortedLocations.map((item, index) => 
+                        `<div class="ranking-item">
+                            <span class="rank">${index + 1}</span>
+                            <span class="location">${item[0]}</span>
+                            <span class="count">${item[1]}</span>
+                        </div>`
+                    ).join('');
+                    
+                    document.getElementById('ranking-list').innerHTML = rankingHTML;
+                } else {
+                    document.getElementById('ranking-list').innerHTML = '<div class="ranking-item">No data available</div>';
+                }
+                
+                // Update status bar
+                const now = new Date();
+                document.getElementById('last-update').textContent = now.toLocaleTimeString('en-US', { hour12: false });
+                
+                // Update date range in header if element exists
+                const dateRangeEl = document.getElementById('dateRange');
+                if (dateRangeEl && dashboardData.stats.recent_date_range) {
+                    dateRangeEl.textContent = `Data: ${dashboardData.stats.recent_date_range}`;
+                }
+                
+                console.log('Dashboard populated successfully');
+                return true;
+            } else {
+                console.error('dashboardData is not defined or missing stats');
+                return false;
+            }
+        }
+        
+        // Try to populate immediately if DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', populateDashboard);
+        } else {
+            // DOM already loaded, populate now
+            populateDashboard();
+        }
+        
+        // Update countdown in status bar
+        setInterval(() => {
+            const countdown = document.getElementById('refresh-countdown');
+            if (countdown) {
+                const statusCountdown = document.getElementById('refresh-countdown-status');
+                if (statusCountdown) {
+                    statusCountdown.textContent = countdown.textContent;
+                }
+            }
+        }, 1000);
+    </script>
+    
+    <!-- Charts and Predictions Script -->
+    <script>
+        // Wait for DOM and data to be ready
+        window.addEventListener('load', function() {
+            // Small delay to ensure dashboardData is loaded
+            setTimeout(function() {
+                if (typeof dashboardData === 'undefined' || !dashboardData.stats) {
+                    console.log('Charts: dashboardData not available yet');
+                    return;
+                }
+            
+            // 1. Create Confidence Distribution Chart
+            const confidenceCtx = document.getElementById('confidence-chart');
+            if (confidenceCtx && dashboardData.stats.confidence_counts) {
+                const confidenceData = dashboardData.stats.confidence_counts;
+                new Chart(confidenceCtx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: Object.keys(confidenceData).map(key => key.replace('Détections ', '')),
+                        datasets: [{
+                            data: Object.values(confidenceData),
+                            backgroundColor: [
+                                'rgba(255, 107, 107, 0.8)',
+                                'rgba(255, 140, 0, 0.8)',
+                                'rgba(0, 255, 136, 0.8)',
+                                'rgba(0, 217, 255, 0.8)'
+                            ],
+                            borderColor: [
+                                'rgba(255, 107, 107, 1)',
+                                'rgba(255, 140, 0, 1)',
+                                'rgba(0, 255, 136, 1)',
+                                'rgba(0, 217, 255, 1)'
+                            ],
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                display: true,
+                                position: 'bottom',
+                                labels: {
+                                    color: 'rgba(0, 255, 255, 0.8)',
+                                    font: {
+                                        family: 'Inter',
+                                        size: 9
+                                    },
+                                    boxWidth: 12,
+                                    padding: 8
+                                }
+                            },
+                            title: {
+                                display: true,
+                                text: 'Distribution Confiance',
+                                color: 'rgba(0, 255, 255, 0.9)',
+                                font: {
+                                    family: 'Orbitron',
+                                    size: 11,
+                                    weight: 'bold'
+                                },
+                                padding: { bottom: 10 }
+                            }
+                        }
+                    }
+                });
+            }
+            
+            // 2. Create Satellite Distribution Chart
+            const satelliteCtx = document.getElementById('satellite-chart');
+            if (satelliteCtx && dashboardData.stats.satellite_counts) {
+                const satelliteData = dashboardData.stats.satellite_counts;
+                new Chart(satelliteCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: Object.keys(satelliteData),
+                        datasets: [{
+                            label: 'Détections',
+                            data: Object.values(satelliteData),
+                            backgroundColor: 'rgba(0, 255, 255, 0.6)',
+                            borderColor: 'rgba(0, 255, 255, 1)',
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                display: false
+                            },
+                            title: {
+                                display: true,
+                                text: 'Détections par Satellite',
+                                color: 'rgba(0, 255, 255, 0.9)',
+                                font: {
+                                    family: 'Orbitron',
+                                    size: 11,
+                                    weight: 'bold'
+                                },
+                                padding: { bottom: 10 }
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    color: 'rgba(0, 255, 255, 0.7)',
+                                    font: { size: 9 }
+                                },
+                                grid: {
+                                    color: 'rgba(0, 255, 255, 0.1)'
+                                }
+                            },
+                            x: {
+                                ticks: {
+                                    color: 'rgba(0, 255, 255, 0.7)',
+                                    font: { size: 9 }
+                                },
+                                grid: {
+                                    display: false
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+            
+            // 3. Calculate and Display Predictions
+            const totalFires = dashboardData.stats.total_detections || 0;
+            const highConfidence = dashboardData.stats.confidence_counts['Détections Haute Confiance'] || 0;
+            
+            // Trend prediction (simple calculation based on high confidence ratio)
+            const trendElement = document.getElementById('trend-24h');
+            if (trendElement) {
+                const ratio = totalFires > 0 ? (highConfidence / totalFires) : 0;
+                let trendText = '';
+                let trendClass = '';
+                
+                if (ratio > 0.4) {
+                    trendText = '↑ HAUSSE';
+                    trendClass = 'increase';
+                } else if (ratio > 0.2) {
+                    trendText = '→ STABLE';
+                    trendClass = '';
+                } else {
+                    trendText = '↓ BAISSE';
+                    trendClass = 'decrease';
+                }
+                
+                trendElement.textContent = trendText;
+                trendElement.className = 'prediction-value ' + trendClass;
+            }
+            
+            // Spread risk calculation
+            const riskElement = document.getElementById('spread-risk');
+            if (riskElement) {
+                let riskLevel = '';
+                let riskClass = '';
+                
+                if (totalFires > 80) {
+                    riskLevel = 'ÉLEVÉ';
+                    riskClass = 'high-risk';
+                } else if (totalFires > 40) {
+                    riskLevel = 'MOYEN';
+                    riskClass = 'medium-risk';
+                } else {
+                    riskLevel = 'FAIBLE';
+                    riskClass = 'low-risk';
+                }
+                
+                riskElement.textContent = riskLevel;
+                riskElement.className = 'prediction-value ' + riskClass;
+            }
+            }, 100); // Small delay
         });
     </script>
-
-    <!-- Scripts JavaScript -->
-    <!-- Script pour simple-datatables (Doit être chargé AVANT votre script personnalisé qui l'utilise) -->
-    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
-    <!-- Votre script personnalisé (chargé APRÈS la bibliothèque qu'il utilise et juste avant </body>) -->
-    <!-- Ce script PEUPLE LE HTML (stats, liste, tableau) et INITIALISE simple-datatables -->
-    <!-- ASSUREZ-VOUS QUE LE CHEMIN VERS fire_data.js EST CORRECT (ex: src="fire_data.js") -->
-    <script src="fire_data.js"></script>
 
 </body>
 </html>

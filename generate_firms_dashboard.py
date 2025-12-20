@@ -10,6 +10,7 @@ import matplotlib.pyplot as plt
 import os
 import numpy as np
 import datetime
+from popup_template import create_cyberpunk_popup, create_simple_popup
 
 # --- Configuration ---
 # IMPORTANT: Replace with your actual FIRMS API Key or load from config/environment
@@ -248,14 +249,8 @@ folium.TileLayer('OpenStreetMap', name='OpenStreetMap', attr='© OpenStreetMap c
 folium.TileLayer('CartoDB darkmatter', name='Carte Fond Sombre', show=False, attr='© CartoDB').add_to(folium_map)
 STAMEN_ATTRIBUTION = 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://www.openstreetmap.org/copyright">ODbL</a>.'
 folium.TileLayer('Stamen Toner', name='Stamen Toner', show=False, attr=STAMEN_ATTRIBUTION).add_to(folium_map)
-
-# Create separate feature groups for different visualizations
-marker_cluster = MarkerCluster(name='Points de Détection')
+marker_cluster = MarkerCluster(name='Détections Feux')
 marker_cluster.add_to(folium_map)
-
-# Feature group for fire polygons
-fire_polygons_group = folium.FeatureGroup(name='Zones de Feu (Polygones)', show=True)
-fire_polygons_group.add_to(folium_map)
 
 essential_marker_cols = ['latitude', 'longitude', 'acq_date', 'brightness', 'confidence_numeric', 'confidence_str', 'satellite']
 # Corrected Syntax Error: Removed the extra closing parenthesis
@@ -290,138 +285,33 @@ if not df.empty and all(col in df.columns for col in essential_marker_cols):
 
             date_str_popup = row_dict.get('acq_date', pd.NaT).strftime('%Y-%m-%d') if pd.notna(row_dict.get('acq_date', pd.NaT)) else 'N/A'
             time_str_popup = str(row_dict.get('acq_time', '')).strip() if pd.notna(row_dict.get('acq_time', '')) and str(row_dict.get('acq_time', '')).strip() != '' else 'N/A'
-            lat_popup = f"{latitude:.2f} °N" if pd.notna(latitude) else 'N/A'
-            lon_popup = f"{longitude:.2f} °E" if pd.notna(longitude) else 'N/A'
+            lat_popup = f"{latitude:.2f}" if pd.notna(latitude) else 'N/A'
+            lon_popup = f"{longitude:.2f}" if pd.notna(longitude) else 'N/A'
             brightness_popup = f"{brightness_value:.1f} K" if pd.notna(brightness_value) else 'N/A'
             confidence_str_popup = row_dict.get('confidence_str', 'N/A')
             satellite_popup = row_dict.get('satellite', 'N/A')
 
-            popup_html = f"""
-            <b>Date:</b> {date_str_popup}<br><b>Heure:</b> {time_str_popup}<br>
-            <b>Latitude:</b> {lat_popup}<br><b>Longitude:</b> {lon_popup}<br>
-            <b>Luminosité:</b> {brightness_popup}<br><b>Confiance:</b> {confidence_str_popup}<br>
-            <b>Satellite:</b> {satellite_popup}
-            """
+            # Use enhanced cyberpunk popup
+            popup_html = create_cyberpunk_popup(
+                date=date_str_popup,
+                time=time_str_popup,
+                latitude=lat_popup,
+                longitude=lon_popup,
+                brightness=brightness_popup,
+                confidence=confidence_str_popup,
+                satellite=satellite_popup,
+                brightness_raw=brightness_value if pd.notna(brightness_value) else None
+            )
+            
             folium.CircleMarker(
                 location=[latitude, longitude],
                 radius=style['radius'], color=style['color'], fill=True, fill_color=style['fillColor'],
                 fill_opacity=style['fillOpacity'], weight=style['weight'],
-                popup=folium.Popup(popup_html, max_width=300), tooltip=f"Feu: {date_str_popup} {time_str_popup}"
+                popup=folium.Popup(popup_html, max_width=350), 
+                tooltip=f"🔥 Feu: {date_str_popup} {time_str_popup}"
             ).add_to(marker_cluster)
     else: print("No valid data rows for map markers after cleaning.")
 else: print("DataFrame is empty or missing essential columns for markers. Skipping adding markers to the map.")
-
-# --- Generate Fire Polygons (Heat Zones) ---
-print("Generating fire polygons...")
-if not df.empty and all(col in df.columns for col in ['latitude', 'longitude', 'brightness', 'confidence_numeric']):
-    df_polygons = df.dropna(subset=['latitude', 'longitude', 'brightness']).copy()
-    
-    if not df_polygons.empty:
-        print(f"Creating polygons for {len(df_polygons)} fire detections...")
-        
-        # Group nearby fires into clusters for polygon creation
-        from sklearn.cluster import DBSCAN
-        import numpy as np
-        
-        # Prepare coordinates for clustering
-        coords = df_polygons[['latitude', 'longitude']].values
-        
-        # DBSCAN clustering (eps in degrees, ~5km = 0.05 degrees)
-        clustering = DBSCAN(eps=0.05, min_samples=2).fit(coords)
-        df_polygons['cluster'] = clustering.labels_
-        
-        # Create polygons for each cluster
-        for cluster_id in df_polygons['cluster'].unique():
-            if cluster_id == -1:  # Skip noise points
-                continue
-            
-            cluster_fires = df_polygons[df_polygons['cluster'] == cluster_id]
-            
-            if len(cluster_fires) < 3:  # Need at least 3 points for a polygon
-                continue
-            
-            # Get cluster statistics
-            avg_brightness = cluster_fires['brightness'].mean()
-            max_brightness = cluster_fires['brightness'].max()
-            fire_count = len(cluster_fires)
-            avg_confidence = cluster_fires['confidence_numeric'].mean()
-            
-            # Create convex hull around fire points
-            from scipy.spatial import ConvexHull
-            points = cluster_fires[['latitude', 'longitude']].values
-            
-            try:
-                hull = ConvexHull(points)
-                hull_points = points[hull.vertices]
-                
-                # Add buffer to polygon (expand slightly)
-                center_lat = hull_points[:, 0].mean()
-                center_lon = hull_points[:, 1].mean()
-                buffer_factor = 1.2  # 20% expansion
-                
-                buffered_points = []
-                for point in hull_points:
-                    lat_diff = (point[0] - center_lat) * buffer_factor
-                    lon_diff = (point[1] - center_lon) * buffer_factor
-                    buffered_points.append([center_lat + lat_diff, center_lon + lon_diff])
-                
-                # Determine polygon color and opacity based on fire intensity
-                if avg_brightness > 400 or avg_confidence > 90:
-                    color = '#FF0000'  # Red for very high intensity
-                    fill_opacity = 0.4
-                elif avg_brightness > 350 or avg_confidence > 70:
-                    color = '#FF6600'  # Orange for high intensity
-                    fill_opacity = 0.35
-                else:
-                    color = '#FFAA00'  # Yellow for moderate intensity
-                    fill_opacity = 0.3
-                
-                # Create popup information
-                popup_html = f"""
-                <div style="font-family: Arial; min-width: 200px;">
-                    <h4 style="margin: 0 0 10px 0; color: #ff6600;">Zone de Feu - Cluster #{cluster_id + 1}</h4>
-                    <b>🔥 Nombre de feux:</b> {fire_count}<br>
-                    <b>🌡️ Luminosité moyenne:</b> {avg_brightness:.1f} K<br>
-                    <b>🔥 Luminosité max:</b> {max_brightness:.1f} K<br>
-                    <b>🎯 Confiance moyenne:</b> {avg_confidence:.0f}%<br>
-                    <b>📍 Zone:</b> ~{len(hull_points)} points
-                </div>
-                """
-                
-                # Add polygon to map
-                folium.Polygon(
-                    locations=buffered_points,
-                    color=color,
-                    weight=2,
-                    fill=True,
-                    fill_color=color,
-                    fill_opacity=fill_opacity,
-                    popup=folium.Popup(popup_html, max_width=300),
-                    tooltip=f"Zone de feu: {fire_count} détections"
-                ).add_to(fire_polygons_group)
-                
-                # Add a center marker for the cluster
-                folium.CircleMarker(
-                    location=[center_lat, center_lon],
-                    radius=8,
-                    color=color,
-                    fill=True,
-                    fill_color=color,
-                    fill_opacity=0.7,
-                    weight=2,
-                    popup=folium.Popup(popup_html, max_width=300),
-                    tooltip=f"Centre: {fire_count} feux"
-                ).add_to(fire_polygons_group)
-                
-            except Exception as e:
-                print(f"Warning: Could not create polygon for cluster {cluster_id}: {e}")
-                continue
-        
-        print(f"Created polygons for fire clusters.")
-    else:
-        print("No valid fire data for polygon creation.")
-else:
-    print("Insufficient data for polygon generation.")
 
 folium.LayerControl(position='topright').add_to(folium_map)
 
